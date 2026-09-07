@@ -1,0 +1,3797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Travel - Admin Dashboard</title>
+
+    <style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033;line-height:1.45}
+:root{--primary:#0d6efd;--primary-dark:#0b5ed7;--success:#198754;--success-dark:#157347;--danger:#dc3545;--warning:#ffc107;--purple:#6f42c1;--muted:#667085;--border:#e5e7eb;--shadow:0 4px 18px rgba(16,24,40,.08)}
+.header{position:sticky;top:0;z-index:1000;min-height:72px;background:linear-gradient(135deg,#0b3f82,#0d6efd);color:#fff;padding:16px clamp(16px,4vw,42px);display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 3px 14px rgba(0,0,0,.14)}
+.header h1{margin:0;font-size:clamp(20px,2.4vw,27px)}.header span{font-size:13px;opacity:.9;white-space:nowrap}
+.container{width:min(1400px,100%);margin:0 auto;padding:clamp(18px,3vw,32px) clamp(12px,3vw,24px) 45px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}.top-bar h2{margin:0;font-size:clamp(19px,2.2vw,24px);color:#111827}
+.refresh-btn{background:var(--success);color:#fff;border:0;padding:11px 17px;min-height:42px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:700;transition:.2s;box-shadow:0 2px 6px rgba(25,135,84,.2)}.refresh-btn:hover{background:var(--success-dark);transform:translateY(-1px)}
+.search-box{display:block;width:100%;min-height:48px;padding:12px 15px;margin:0 0 18px;border:1px solid #d0d5dd;border-radius:10px;background:#fff;font-size:15px;outline:none;box-shadow:0 1px 3px rgba(16,24,40,.04)}.search-box:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(13,110,253,.12)}
+.stats-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-bottom:28px}.stat-card{min-width:0;background:#fff;border-radius:14px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);border-left:5px solid;transition:.2s;cursor:pointer}.stat-card:hover{transform:translateY(-3px);box-shadow:0 9px 25px rgba(16,24,40,.12)}.stat-icon{width:46px;height:46px;flex:0 0 46px;display:grid;place-items:center;border-radius:12px;background:#f3f6fa;font-size:25px}.stat-title{font-size:12px;color:var(--muted);margin-bottom:4px}.stat-number{font-size:clamp(24px,3vw,29px);font-weight:800;color:#111827}.total-card{border-left-color:var(--primary)}.pending-card{border-left-color:var(--warning)}.confirmed-card{border-left-color:var(--success)}.cancelled-card{border-left-color:var(--danger)}.completed-card{border-left-color:var(--purple)}
+.table-container{width:100%;background:#fff;border:1px solid var(--border);border-radius:14px;overflow-x:auto;box-shadow:var(--shadow);margin-bottom:24px}table{width:100%;border-collapse:collapse;min-width:980px}th{background:#f8fafc;color:#475467;padding:14px 15px;text-align:left;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.35px;white-space:nowrap;border-bottom:1px solid var(--border)}td{padding:14px 15px;border-top:1px solid #eef0f3;font-size:14px;vertical-align:middle}tbody tr:hover{background:#f8fbff}.booking-id{color:var(--primary);font-weight:700}.booking-id-button{background:#eef5ff;border:1px solid #cfe2ff;color:var(--primary-dark);font-weight:700;cursor:pointer;padding:7px 9px;border-radius:7px;font-size:13px}.booking-id-button:hover{background:#dcecff}.phone{color:var(--success-dark);font-weight:600}.loading,.no-bookings{text-align:center;padding:38px 20px;color:#667085}
+.status,.status-select{border-radius:999px;font-size:12px;font-weight:700}.status-select{padding:7px 27px 7px 10px;border:1px solid #d0d5dd;cursor:pointer;outline:none}.status-select.pending,.status-pending{background:#fff3cd;color:#856404}.status-select.confirmed,.status-confirmed{background:#d1e7dd;color:#0f5132}.status-select.cancelled,.status-cancelled{background:#f8d7da;color:#842029}.status-select.completed,.status-completed{background:#e2d9f3;color:#59359a}
+.booking-modal{display:none;position:fixed;z-index:9999;inset:0;background:rgba(15,23,42,.62);align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}.booking-modal-content{width:100%;max-width:620px;max-height:calc(100vh - 36px);overflow-y:auto;background:#fff;border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.28);position:relative;animation:bookingModalOpen .22s ease}@keyframes bookingModalOpen{from{opacity:0;transform:translateY(-14px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.booking-modal-content h2{margin:0;padding:19px 56px 19px 22px;background:linear-gradient(135deg,#0d6efd,#1769e0);color:#fff;font-size:21px}.close-modal{position:absolute;top:10px;right:12px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:25px;cursor:pointer;z-index:2}.close-modal:hover{background:rgba(255,255,255,.3)}
+.booking-details{padding:20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.booking-details>div{min-width:0;background:#f8fafc;border:1px solid #e4e7ec;border-radius:10px;padding:12px 14px}.booking-details strong{display:block;font-size:10px;color:#667085;margin-bottom:5px;text-transform:uppercase;letter-spacing:.35px}.booking-details span{display:block;font-size:14px;font-weight:700;color:#111827;word-break:break-word}#detailStatus{display:inline-block;width:fit-content;padding:6px 11px;border-radius:999px}
+.booking-contact-actions{display:flex;gap:10px;padding:20px 22px 0;grid-column:1/-1}.contact-btn{flex:1;min-height:45px;display:inline-flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;border:0;padding:10px 13px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}.email-btn{background:var(--primary);color:#fff}.email-btn:hover{background:var(--primary-dark);transform:translateY(-1px)}.call-btn{background:var(--success);color:#fff}.call-btn:hover{background:var(--success-dark);transform:translateY(-1px)}
+.email-modal-content{max-width:620px}.email-form{padding:22px;display:grid;gap:8px}.email-form label{margin-top:5px;font-size:12px;font-weight:700;color:#475467}.email-form input,.email-form textarea{width:100%;border:1px solid #d0d5dd;border-radius:9px;padding:11px 12px;font:inherit;font-size:14px;outline:none}.email-form input:focus,.email-form textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(13,110,253,.11)}.email-form textarea{resize:vertical;min-height:150px}.send-email-btn{margin-top:8px;width:100%;min-height:46px;border:0;border-radius:9px;background:var(--primary);color:#fff;font-size:14px;font-weight:700;cursor:pointer}.send-email-btn:hover{background:var(--primary-dark)}.send-email-btn:disabled{opacity:.65;cursor:not-allowed}
+@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.header{min-height:64px;padding:14px 16px}.header span{font-size:11px}.container{padding:18px 10px 35px}.top-bar{align-items:stretch}.top-bar h2{font-size:19px}.refresh-btn{padding:9px 12px;font-size:12px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat-card{padding:14px;gap:10px}.stat-icon{width:40px;height:40px;flex-basis:40px;font-size:21px}.table-container{-webkit-overflow-scrolling:touch}.table-container table{min-width:860px}.booking-details{gap:10px;padding:16px}.booking-contact-actions{padding:16px 16px 0}}
+@media(max-width:560px){.header{position:relative;flex-direction:column;align-items:flex-start;gap:2px}.header h1{font-size:20px}.header span{white-space:normal}.container{padding:15px 8px 30px}.top-bar{flex-direction:column;gap:10px;margin-bottom:14px}.top-bar .refresh-btn{width:100%}.stats-grid{grid-template-columns:1fr 1fr}.stat-card{border-left-width:4px;padding:12px 10px;min-height:74px}.stat-icon{display:none}.stat-title{font-size:11px}.stat-number{font-size:24px}.search-box{min-height:46px;font-size:14px}.table-container table{min-width:720px}.table-container th,.table-container td{padding:11px 10px;font-size:12px}.booking-modal{padding:10px;align-items:flex-end}.booking-modal-content{max-width:100%;max-height:calc(100vh - 20px);border-radius:15px 15px 0 0}.booking-modal-content h2{font-size:18px;padding:17px 52px 17px 18px}.close-modal{width:34px;height:34px;font-size:22px;top:8px;right:9px}.booking-details{grid-template-columns:1fr;padding:14px}.booking-details>div{padding:11px 12px}.booking-contact-actions{grid-column:auto;flex-direction:column;padding:14px 14px 0}.contact-btn{width:100%;min-height:46px}.email-form{padding:17px 15px 20px}}
+@media(max-width:380px){.stats-grid{grid-template-columns:1fr}}
+/* =========================================
+   MOBILE CARD VIEW FOR ADMIN TABLES
+========================================= */
+
+@media (max-width: 600px) {
+
+    .table-container {
+        overflow-x: hidden;
+        border-radius: 12px;
+    }
+
+    .table-container table {
+        min-width: 0;
+        width: 100%;
+        display: block;
+    }
+
+    .table-container thead {
+        display: none;
+    }
+
+    .table-container tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .table-container tbody tr {
+        display: block;
+        width: 100%;
+        margin-bottom: 14px;
+        padding: 12px;
+        background: #fff;
+        border: 1px solid #e4e7ec;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(16, 24, 40, 0.08);
+    }
+
+    .table-container tbody td {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 9px 4px;
+        border-top: 1px solid #eef0f3;
+        font-size: 13px;
+        word-break: break-word;
+    }
+
+    .table-container tbody td:first-child {
+        border-top: 0;
+    }
+
+    /* BOOKING TABLE LABELS */
+
+    #bookingTable td:nth-child(1)::before {
+        content: "Booking ID";
+    }
+
+    #bookingTable td:nth-child(2)::before {
+        content: "Package";
+    }
+
+    #bookingTable td:nth-child(3)::before {
+        content: "Name";
+    }
+
+    #bookingTable td:nth-child(4)::before {
+        content: "Email";
+    }
+
+    #bookingTable td:nth-child(5)::before {
+        content: "Phone";
+    }
+
+    #bookingTable td:nth-child(6)::before {
+        content: "Date";
+    }
+
+    #bookingTable td:nth-child(7)::before {
+        content: "Time";
+    }
+
+    #bookingTable td:nth-child(8)::before {
+        content: "Status";
+    }
+
+    /* CONTACT MESSAGE LABELS */
+
+    #contactMessageTable td:nth-child(1)::before {
+        content: "ID";
+    }
+
+    #contactMessageTable td:nth-child(2)::before {
+        content: "Name";
+    }
+
+    #contactMessageTable td:nth-child(3)::before {
+        content: "Email";
+    }
+
+    #contactMessageTable td:nth-child(4)::before {
+        content: "Destination";
+    }
+
+    #contactMessageTable td:nth-child(5)::before {
+        content: "Message";
+    }
+
+    #contactMessageTable td:nth-child(6)::before {
+        content: "Date";
+    }
+
+    #contactMessageTable td:nth-child(7)::before {
+        content: "Action";
+    }
+
+    .table-container tbody td::before {
+        flex: 0 0 82px;
+        font-size: 11px;
+        font-weight: 800;
+        color: #667085;
+        text-transform: uppercase;
+        letter-spacing: .3px;
+    }
+
+    .booking-id-button {
+        max-width: 180px;
+        overflow-wrap: anywhere;
+    }
+
+    .status-select {
+        max-width: 150px;
+    }
+
+    #contactMessageTable td:nth-child(7) {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    #contactMessageTable td:nth-child(7)::before {
+        flex-basis: 82px;
+    }
+}
+/* FINAL MOBILE TABLE CARD FIX */
+@media (max-width: 600px) {
+
+    .table-container {
+        overflow-x: hidden !important;
+    }
+
+    .table-container table {
+        min-width: 0 !important;
+        width: 100% !important;
+        display: block;
+    }
+
+    .table-container tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .table-container tbody tr {
+        display: block;
+        width: 100%;
+        margin: 0 0 14px 0;
+        padding: 8px 12px;
+        background: #ffffff;
+        border: 1px solid #e4e7ec;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(16, 24, 40, 0.08);
+    }
+
+    .table-container tbody td {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 0;
+        border-top: 1px solid #eef0f3;
+        font-size: 13px;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+
+    .table-container tbody td:first-child {
+        border-top: none;
+    }
+
+    .table-container tbody td::before {
+        flex: 0 0 78px;
+        font-size: 10px;
+        font-weight: 800;
+        color: #667085;
+        text-transform: uppercase;
+        letter-spacing: .3px;
+    }
+
+    /* Booking table labels */
+    #bookingTable td:nth-child(1)::before { content: "Booking ID"; }
+    #bookingTable td:nth-child(2)::before { content: "Package"; }
+    #bookingTable td:nth-child(3)::before { content: "Name"; }
+    #bookingTable td:nth-child(4)::before { content: "Email"; }
+    #bookingTable td:nth-child(5)::before { content: "Phone"; }
+    #bookingTable td:nth-child(6)::before { content: "Date"; }
+    #bookingTable td:nth-child(7)::before { content: "Time"; }
+    #bookingTable td:nth-child(8)::before { content: "Status"; }
+
+    /* Contact message labels */
+    #contactMessageTable td:nth-child(1)::before { content: "ID"; }
+    #contactMessageTable td:nth-child(2)::before { content: "Name"; }
+    #contactMessageTable td:nth-child(3)::before { content: "Email"; }
+    #contactMessageTable td:nth-child(4)::before { content: "Destination"; }
+    #contactMessageTable td:nth-child(5)::before { content: "Message"; }
+    #contactMessageTable td:nth-child(6)::before { content: "Date"; }
+    #contactMessageTable td:nth-child(7)::before { content: "Action"; }
+
+    /* Keep long values inside the card */
+    #bookingTable td,
+    #contactMessageTable td {
+        min-width: 0;
+    }
+
+    #bookingTable td > *,
+    #contactMessageTable td > * {
+        max-width: calc(100% - 88px);
+    }
+
+    /* Booking ID */
+    .booking-id-button {
+        max-width: 180px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* Status */
+    .status-select {
+        max-width: 145px;
+    }
+
+    /* Contact action buttons */
+    #contactMessageTable td:last-child {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    #contactMessageTable td:last-child button {
+        min-height: 38px;
+    }
+}
+/* =========================================
+   FINAL PROFESSIONAL POLISH
+========================================= */
+
+body {
+    background: #f5f7fb;
+    color: #172033;
+}
+
+.header {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.container {
+    padding-bottom: 40px;
+}
+
+.top-bar h2 {
+    color: #172033;
+    font-weight: 700;
+}
+
+.refresh-btn {
+    box-shadow: 0 4px 10px rgba(25, 135, 84, 0.20);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.refresh-btn:hover {
+    transform: translateY(-1px);
+}
+
+.search-box {
+    background: #ffffff;
+    border: 1px solid #d9dee8;
+    box-shadow: 0 2px 8px rgba(16, 24, 40, 0.04);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-box:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+.table-container {
+    border: 1px solid #e4e7ec;
+    box-shadow: 0 5px 18px rgba(16, 24, 40, 0.07);
+}
+
+th {
+    color: #475467;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+td {
+    color: #344054;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+.stat-card {
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(16, 24, 40, 0.07);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 24px rgba(16, 24, 40, 0.11);
+}
+
+.booking-id-button {
+    background: #eef5ff;
+    border: 1px solid #c9ddff;
+    border-radius: 7px;
+    padding: 7px 10px;
+    transition: all 0.2s ease;
+}
+
+.booking-id-button:hover {
+    background: #dceaff;
+    text-decoration: none;
+}
+
+.contact-btn,
+.refresh-btn {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+
+    .header {
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .container {
+        padding-bottom: 25px;
+    }
+
+    .stat-card {
+        border-radius: 13px;
+    }
+
+    .search-box {
+        border-radius: 10px;
+    }
+}
+/* =========================================
+   STEP 2 - MOBILE BOOKING CARD POLISH
+========================================= */
+
+@media (max-width: 600px) {
+
+    #bookingTable tbody tr {
+        padding: 10px 14px;
+        margin-bottom: 16px;
+        border-radius: 14px;
+        border: 1px solid #e1e6ef;
+        box-shadow: 0 5px 16px rgba(16, 24, 40, 0.08);
+        background: #ffffff;
+    }
+
+    #bookingTable tbody td {
+        padding: 11px 0;
+        min-height: 42px;
+        align-items: center;
+    }
+
+    #bookingTable tbody td::before {
+        font-size: 10px;
+        font-weight: 800;
+        color: #667085;
+        letter-spacing: 0.5px;
+    }
+
+    /* Booking ID highlight */
+    #bookingTable tbody td:first-child {
+        padding-top: 6px;
+        padding-bottom: 12px;
+    }
+
+    #bookingTable .booking-id-button {
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        background: #eef5ff;
+        border: 1px solid #c7dcff;
+        color: #0d6efd;
+    }
+
+    /* Customer information */
+    #bookingTable tbody td:nth-child(3),
+    #bookingTable tbody td:nth-child(4) {
+        font-weight: 600;
+    }
+
+    /* Phone */
+    #bookingTable tbody td:nth-child(5) {
+        color: #087f5b;
+        font-weight: 700;
+    }
+
+    /* Status */
+    #bookingTable tbody td:nth-child(8) {
+        padding-top: 13px;
+        padding-bottom: 6px;
+    }
+
+    #bookingTable .status-select {
+        width: 145px;
+        min-height: 40px;
+        border-radius: 20px;
+        padding: 8px 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* Better spacing between cards */
+    #bookingTable tbody tr:last-child {
+        margin-bottom: 4px;
+    }
+}
+/* =========================================
+   STEP 3 - BOOKING DETAILS MODAL POLISH
+========================================= */
+
+.booking-modal {
+    backdrop-filter: blur(4px);
+    background: rgba(15, 23, 42, 0.68);
+}
+
+.booking-modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid #e5e7eb;
+}
+
+.booking-modal-content h2 {
+    letter-spacing: 0.2px;
+}
+
+.booking-details > div {
+    transition: all 0.2s ease;
+}
+
+.booking-details > div:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+.booking-details strong {
+    letter-spacing: 0.5px;
+}
+
+.booking-details span {
+    line-height: 1.5;
+}
+
+/* Booking ID */
+#detailBookingId {
+    color: #0d6efd;
+    font-weight: 800;
+}
+
+/* Email */
+#detailEmail {
+    overflow-wrap: anywhere;
+}
+
+/* Phone */
+#detailPhone {
+    color: #087f5b;
+    font-weight: 800;
+}
+
+/* Status */
+#detailStatus {
+    min-width: 105px;
+    text-align: center;
+}
+
+/* Contact buttons */
+.booking-contact-actions {
+    gap: 14px;
+}
+
+.contact-btn {
+    min-height: 44px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(16, 24, 40, 0.10);
+    transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(16, 24, 40, 0.14);
+}
+
+/* Mobile modal */
+@media (max-width: 600px) {
+
+    .booking-modal {
+        padding: 10px;
+        align-items: center;
+    }
+
+    .booking-modal-content {
+        width: 100%;
+        max-width: 100%;
+        max-height: 94vh;
+        border-radius: 14px;
+    }
+
+    .booking-modal-content h2 {
+        padding: 17px 18px;
+        font-size: 19px;
+    }
+
+    .close-modal {
+        width: 34px;
+        height: 34px;
+        top: 10px;
+        right: 10px;
+        font-size: 22px;
+    }
+
+    .booking-details {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .booking-details > div {
+        padding: 12px 13px;
+        border-radius: 9px;
+    }
+
+    .booking-details strong {
+        font-size: 10px;
+    }
+
+    .booking-details span {
+        font-size: 14px;
+    }
+
+    .booking-contact-actions {
+        padding: 0 15px 15px;
+        gap: 10px;
+    }
+
+    .contact-btn {
+        min-height: 44px;
+        font-size: 14px;
+    }
+}
+/* =========================================
+   STEP 5 - PROFESSIONAL DASHBOARD STATS
+========================================= */
+
+.stats-grid {
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    min-height: 105px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card::after {
+    content: "";
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    right: -25px;
+    top: -25px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.13);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f6f9;
+    border-radius: 14px;
+    font-size: 27px;
+    flex-shrink: 0;
+}
+
+.stat-title {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.stat-number {
+    font-size: 27px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+}
+
+/* Individual card accents */
+.total-card {
+    border-left: 5px solid #0d6efd;
+}
+
+.pending-card {
+    border-left: 5px solid #ffc107;
+}
+
+.confirmed-card {
+    border-left: 5px solid #198754;
+}
+
+.cancelled-card {
+    border-left: 5px solid #dc3545;
+}
+
+.completed-card {
+    border-left: 5px solid #6f42c1;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .stats-grid {
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .stat-card {
+        min-height: 88px;
+        padding: 15px;
+        border-radius: 13px;
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 23px;
+    }
+
+    .stat-title {
+        font-size: 11px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+}
+/* =========================================
+   STEP 6 - MOBILE BOOKING TABLE
+========================================= */
+
+@media (max-width: 600px) {
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-radius: 14px;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    cursor: grab;
+}
+
+.table-container:active {
+    cursor: grabbing;
+}
+
+.table-container table {
+    min-width: 900px;
+    width: 100%;
+}
+
+.table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #eef2f7;
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+
+    .table-container table {
+        min-width: 850px;
+        font-size: 12px;
+    }
+
+    .table-container th {
+        padding: 11px 10px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .table-container td {
+        padding: 11px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    /* Booking ID column stays visible while scrolling */
+    .table-container th:first-child,
+    .table-container td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background: #ffffff;
+    }
+
+    .table-container th:first-child {
+        background: #f1f3f5;
+        z-index: 3;
+    }
+
+    /* Booking ID button */
+    .booking-id-button {
+        font-size: 10px;
+        padding: 7px 9px;
+        white-space: nowrap;
+    }
+
+    /* Status dropdown */
+    .status-select {
+        min-width: 95px;
+        font-size: 11px;
+        padding: 7px 8px;
+    }
+
+    /* Better touch scrolling */
+    .table-container::-webkit-scrollbar {
+        height: 7px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #b8c2cc;
+    }
+}
+/* ==========================================
+   STEP 7 - MOBILE BOOKING CARD POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    .booking-id-button {
+        display: inline-block;
+        padding: 8px 10px;
+        background: #eef5ff;
+        border: 1px solid #b8d4ff;
+        border-radius: 8px;
+        color: #0d6efd;
+        font-size: 13px;
+        font-weight: 700;
+        word-break: break-all;
+    }
+
+    .booking-id-button:hover {
+        background: #e2efff;
+        text-decoration: none;
+    }
+
+    .phone {
+        font-weight: 700;
+        color: #198754;
+    }
+
+    .status-select {
+        min-width: 145px;
+        min-height: 40px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .booking-id,
+    td {
+        vertical-align: middle;
+    }
+}
+/* ==========================================
+   STEP 8 - CONTACT MESSAGES MOBILE POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    /* Contact message text */
+    #contactMessageTable td {
+        font-size: 13px;
+        padding: 12px 8px;
+        vertical-align: middle;
+    }
+
+    /* Keep long messages inside the card */
+    #contactMessageTable td:nth-child(5) {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        line-height: 1.5;
+    }
+
+    /* Email should not overflow */
+    #contactMessageTable td:nth-child(3) {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* Action buttons */
+    #contactMessageTable td:last-child {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    #contactMessageTable td:last-child button {
+        width: 100%;
+        min-height: 38px;
+        padding: 8px 10px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+}
+/* ==========================================
+   STEP 9 - MOBILE SEARCH BOX POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    .search-box {
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 44px;
+        padding: 10px 14px;
+        margin: 12px 0 16px 0;
+        border: 1px solid #d7dee8;
+        border-radius: 10px;
+        background: #ffffff;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .search-box:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10);
+    }
+
+    .search-box::placeholder {
+        color: #7a8491;
+    }
+
+}
+/* ==========================================
+   STEP 10 - MOBILE TOP BAR POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    .top-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-top: 25px !important;
+        margin-bottom: 14px;
+    }
+
+    .top-bar h2 {
+        font-size: 20px;
+        line-height: 1.3;
+        margin: 0;
+    }
+
+    .refresh-btn {
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+}
+/* ==========================================
+   STEP 11 - MOBILE STATS CARDS POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .stat-card {
+        min-height: 88px;
+        padding: 14px;
+        box-sizing: border-box;
+    }
+
+    .stat-card h3 {
+        font-size: 12px;
+    }
+
+    .stat-card .stat-number {
+        font-size: 24px;
+    }
+
+    /* Center the 5th card */
+    .stat-card:last-child {
+        grid-column: 1 / -1;
+        width: calc(50% - 6px);
+        justify-self: center;
+    }
+
+}
+/* ==========================================
+   STEP 12 - MOBILE HEADER POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 16px 14px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+        line-height: 1.2;
+        margin: 0 0 4px 0;
+    }
+
+    .header p {
+        font-size: 12px;
+        margin: 0;
+    }
+
+}
+/* ==========================================
+   STEP 13 - MOBILE BOOKING MODAL POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    .booking-modal-content {
+        width: calc(100% - 24px);
+        max-width: 420px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 18px;
+        border-radius: 14px;
+        box-sizing: border-box;
+    }
+
+    .booking-modal-content h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+    }
+
+    .booking-detail-row {
+        padding: 10px 0;
+        gap: 8px;
+    }
+
+    .booking-detail-row strong {
+        font-size: 12px;
+    }
+
+    .booking-detail-row span {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .booking-contact-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .booking-contact-actions button {
+        width: 100%;
+        min-height: 44px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+}
+/* ==========================================
+   STEP 14 - MOBILE HORIZONTAL OVERFLOW FIX
+========================================== */
+
+@media (max-width: 600px) {
+
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .container {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+}
+/* ==========================================
+   STEP 15 - FINAL MOBILE BUTTON POLISH
+========================================== */
+
+@media (max-width: 600px) {
+
+    button {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    button:active {
+        transform: scale(0.98);
+    }
+
+    .refresh-btn,
+    .booking-contact-actions button,
+    #contactMessageTable td:last-child button {
+        transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .refresh-btn:hover,
+    .booking-contact-actions button:hover,
+    #contactMessageTable td:last-child button:hover {
+        opacity: 0.92;
+    }
+
+}
+/* ==========================================
+   ADMIN LOGOUT BUTTON
+========================================== */
+
+.admin-logout-btn {
+    background: #dc3545;
+    color: #ffffff;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-logout-btn:hover {
+    background: #bb2d3b;
+}
+
+.admin-logout-btn:active {
+    transform: scale(0.97);
+}
+
+@media (max-width: 600px) {
+
+    .admin-logout-btn {
+        width: 100%;
+        min-height: 40px;
+        margin-top: 8px;
+    }
+
+}
+/* ==========================================
+   PACKAGE MANAGEMENT
+========================================== */
+
+.package-section {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.package-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.package-header h2 {
+    margin: 0;
+    font-size: clamp(19px, 2.2vw, 24px);
+    color: #111827;
+}
+
+.add-package-btn {
+    background: var(--primary);
+    color: #fff;
+    border: 0;
+    padding: 11px 17px;
+    min-height: 42px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.add-package-btn:hover {
+    background: var(--primary-dark);
+}
+
+.package-table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+}
+
+.package-image-preview {
+    width: 55px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f3f4f6;
+    display: block;
+}
+
+.package-status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.package-status.active {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.package-status.inactive {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.package-action-btn {
+    border: 0;
+    padding: 7px 11px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+}
+
+.edit-package-btn {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.delete-package-btn {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.package-modal-content {
+    max-width: 650px;
+}
+
+.package-form {
+    padding: 22px;
+    display: grid;
+    gap: 8px;
+}
+
+.package-form label {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #475467;
+}
+
+.package-form input,
+.package-form textarea,
+.package-form select {
+    width: 100%;
+    border: 1px solid #d0d5dd;
+    border-radius: 9px;
+    padding: 11px 12px;
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.package-form input:focus,
+.package-form textarea:focus,
+.package-form select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, .11);
+}
+
+.package-form textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.package-submit-btn {
+    margin-top: 10px;
+    width: 100%;
+    min-height: 46px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.package-submit-btn:hover {
+    background: var(--primary-dark);
+}
+
+@media(max-width:560px) {
+
+    .package-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .add-package-btn {
+        width: 100%;
+    }
+
+    .package-form {
+        padding: 17px 15px 20px;
+    }
+
+}
+</style>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>✈️ Rahul Travel</h1>
+        <span>Admin Booking Dashboard</span>
+        <button
+    type="button"
+    class="admin-logout-btn"
+    onclick="adminLogout()"
+>
+    🚪 Logout
+</button>
+    </div>
+
+    <div class="container">
+
+        <div class="top-bar">
+            <h2>📋 All Bookings</h2>
+
+            <button class="refresh-btn" onclick="loadBookings()">
+                🔄 Refresh
+            </button>
+        </div>
+        <!-- BOOKING SEARCH & FILTER -->
+<div class="booking-filter-bar">
+
+    <input
+        type="text"
+        id="bookingSearch"
+        placeholder="🔎 Search Booking ID, Name or Package..."
+    >
+
+    <select id="bookingStatusFilter">
+        <option value="all">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+    </select>
+
+    <button
+        type="button"
+       onclick="applyBookingFilters()"
+    >
+        🔍 Search
+    </button>
+
+    <button
+        type="button"
+        onclick="clearBookingFilters()"
+    >
+        ✖ Clear
+    </button>
+
+</div>
+<!-- DASHBOARD STATS -->
+<div class="stats-grid">
+
+<div class="stat-card total-card" onclick="filterByStatus('all')" style="cursor:pointer;">
+        <div class="stat-icon">📋</div>
+        <div>
+            <div class="stat-title">Total Bookings</div>
+            <div class="stat-number" id="totalBookings">0</div>
+        </div>
+    </div>
+
+<div class="stat-card pending-card" onclick="filterByStatus('pending')" style="cursor:pointer;">
+        <div class="stat-icon">⏳</div>
+        <div>
+            <div class="stat-title">Pending</div>
+            <div class="stat-number" id="pendingBookings">0</div>
+        </div>
+    </div>
+
+<div class="stat-card confirmed-card" onclick="filterByStatus('confirmed')" style="cursor:pointer;">
+        <div class="stat-icon">✅</div>
+        <div>
+            <div class="stat-title">Confirmed</div>
+            <div class="stat-number" id="confirmedBookings">0</div>
+        </div>
+    </div>
+
+<div class="stat-card cancelled-card" onclick="filterByStatus('cancelled')" style="cursor:pointer;">
+        <div class="stat-icon">❌</div>
+        <div>
+            <div class="stat-title">Cancelled</div>
+            <div class="stat-number" id="cancelledBookings">0</div>
+        </div>
+    </div>
+
+<div class="stat-card completed-card" onclick="filterByStatus('completed')" style="cursor:pointer;">
+        <div class="stat-icon">🎉</div>
+        <div>
+            <div class="stat-title">Completed</div>
+            <div class="stat-number" id="completedBookings">0</div>
+        </div>
+    </div>
+
+</div>
+<!-- ==========================================
+     PACKAGE MANAGEMENT
+========================================== -->
+
+<div class="package-section">
+
+    <div class="package-header">
+
+        <h2>📦 Package Management</h2>
+
+        <button
+            class="add-package-btn"
+            type="button"
+            onclick="openPackageForm()"
+        >
+            ➕ Add Package
+        </button>
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="package-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Package Name</th>
+                    <th>Destination</th>
+                    <th>Duration</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="packageTable">
+
+                <tr>
+
+                    <td colspan="8" class="loading">
+                        Loading packages...
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     ADD / EDIT PACKAGE MODAL
+========================================== -->
+
+<div id="packageFormModal" class="booking-modal">
+
+    <div class="booking-modal-content package-modal-content">
+
+        <button
+            class="close-modal"
+            type="button"
+            onclick="closePackageForm()"
+        >
+            ×
+        </button>
+
+        <h2 id="packageFormTitle">
+            ➕ Add Package
+        </h2>
+
+        <div class="package-form">
+
+            <input
+                type="hidden"
+                id="packageId"
+            >
+
+            <label>
+                Package Name
+            </label>
+
+            <input
+                type="text"
+                id="packageName"
+                placeholder="e.g. Goa Holiday"
+                required
+            >
+
+
+            <label>
+                Destination
+            </label>
+
+            <input
+                type="text"
+                id="packageDestination"
+                placeholder="e.g. Goa"
+                required
+            >
+
+
+            <label>
+                Duration
+            </label>
+
+            <input
+                type="text"
+                id="packageDuration"
+                placeholder="e.g. 3 Days / 2 Nights"
+                required
+            >
+
+
+            <label>
+                Price
+            </label>
+
+            <input
+                type="number"
+                id="packagePrice"
+                placeholder="e.g. 8999"
+                min="0"
+                required
+            >
+
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                id="packageDescription"
+                placeholder="Write package description..."
+            ></textarea>
+
+
+            <label>
+                Image
+            </label>
+
+            <input
+                type="text"
+                id="packageImage"
+                placeholder="e.g. 🏖️ or image URL"
+            >
+
+
+            <label>
+                Status
+            </label>
+
+            <select id="packageStatus">
+
+                <option value="Active">
+                    Active
+                </option>
+
+                <option value="Inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                class="package-submit-btn"
+                onclick="savePackage()"
+            >
+                💾 Save Package
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+ <!-- ==========================================
+     CONTACT MESSAGES
+========================================== -->
+
+<div class="top-bar" style="margin-top:35px;">
+    <h2>📩 Customer Contact Messages</h2>
+
+    <button class="refresh-btn" onclick="loadContactMessages()">
+        🔄 Refresh Messages
+    </button>
+</div>
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Destination</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="contactMessageTable">
+
+            <tr>
+                <td colspan="7" class="loading">
+                    Loading messages...
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+<div style="
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+">
+
+    <input
+        type="text"
+        id="searchBox"
+        class="search-box"
+        placeholder="🔍 Search Booking ID, Package, Name, Email or Phone..."
+        oninput="applyBookingFilters()"
+        style="
+            flex:1;
+            min-width:250px;
+            margin-bottom:0;
+        "
+    >
+
+    <select
+        id="statusFilter"
+        onchange="applyBookingFilters()"
+        style="
+            padding:13px;
+            border:1px solid #ccc;
+            border-radius:7px;
+            font-size:15px;
+            min-width:180px;
+            background:white;
+        "
+    >
+        <option value="all">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+    </select>
+<button
+    type="button"
+    onclick="exportBookings()"
+    style="
+        padding:13px 18px;
+        background:#198754;
+        color:white;
+        border:none;
+        border-radius:7px;
+        font-size:15px;
+        font-weight:bold;
+        cursor:pointer;
+        white-space:nowrap;
+    "
+>
+    📥 Export Bookings
+</button>
+</div>
+
+        <div class="table-container">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Package</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bookingTable">
+                    <tr>
+                        <td colspan="8" class="loading">
+                            Loading bookings...
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+<!-- ==========================================
+     BOOKING PAGINATION
+========================================== -->
+
+<div
+    id="bookingPagination"
+    style="
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:8px;
+        margin:20px 0 30px;
+        flex-wrap:wrap;
+    "
+>
+</div>
+<!-- ===============================
+     BOOKING DETAILS MODAL
+================================ -->
+
+<div id="bookingModal" class="booking-modal">
+
+    <div class="booking-modal-content">
+
+        <button class="close-modal" onclick="closeBookingModal()">
+            ×
+        </button>
+
+        <h2>📋 Booking Details</h2>
+
+        <div class="booking-details">
+
+            <div>
+                <strong>Booking ID</strong>
+                <span id="detailBookingId">-</span>
+            </div>
+            <div class="booking-contact-actions">
+
+<button
+    id="emailCustomerBtn"
+    class="contact-btn email-btn"
+    type="button"
+    onclick="openCustomerEmailModal()"
+>
+    📧 Email Customer
+</button>
+
+    <a
+        id="callCustomerBtn"
+        class="contact-btn call-btn"
+        href="#"
+    >
+        📞 Call Customer
+    </a>
+
+</div>
+
+            <div>
+                <strong>Package</strong>
+                <span id="detailPackage">-</span>
+            </div>
+
+            <div>
+                <strong>Customer Name</strong>
+                <span id="detailName">-</span>
+            </div>
+
+            <div>
+                <strong>Email</strong>
+                <span id="detailEmail">-</span>
+            </div>
+
+            <div>
+                <strong>Phone</strong>
+                <span id="detailPhone">-</span>
+            </div>
+
+            <div>
+                <strong>Booking Date</strong>
+                <span id="detailDate">-</span>
+            </div>
+
+            <div>
+                <strong>Booking Time</strong>
+                <span id="detailTime">-</span>
+            </div>
+
+            <div>
+                <strong>Status</strong>
+                <span id="detailStatus">-</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+        </div>
+
+    </div>
+
+<!-- ==========================================
+     CUSTOMER EMAIL MODAL
+========================================== -->
+
+<div id="customerEmailModal" class="booking-modal">
+
+    <div class="booking-modal-content email-modal-content">
+
+        <button
+            class="close-modal"
+            type="button"
+            onclick="closeCustomerEmailModal()"
+        >
+            ×
+        </button>
+
+        <h2>📧 Email Customer</h2>
+
+        <div class="email-form">
+
+            <label>Customer Email</label>
+
+            <input
+                type="email"
+                id="customerEmail"
+                readonly
+            >
+
+            <label>Customer Name</label>
+
+            <input
+                type="text"
+                id="customerEmailName"
+                readonly
+            >
+
+            <label>Subject</label>
+
+            <input
+                type="text"
+                id="customerEmailSubject"
+                value="Regarding Your Rahul Travel Booking"
+            >
+
+            <label>Message</label>
+
+            <textarea
+                id="customerEmailMessage"
+                rows="8"
+                placeholder="Write your message here..."
+            ></textarea>
+
+            <button
+                type="button"
+                class="send-email-btn"
+                onclick="sendCustomerEmail()"
+            >
+                📤 Send Email
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+let allBookings = [];
+// ==========================================
+// LOAD CONTACT MESSAGES
+// ==========================================
+
+async function loadContactMessages() {
+
+    const table = document.getElementById("contactMessageTable");
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="6" class="loading">
+                Loading messages...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response = await fetch("/api/contact-messages");
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(
+                result.message || "Failed to load messages"
+            );
+        }
+
+        const messages = result.messages || [];
+
+        if (!messages.length) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7" class="no-bookings">
+                        📭 No contact messages yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        table.innerHTML = messages.map(message => {
+
+            return `
+                <tr>
+
+                    <td>
+                        ${message.id || "-"}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${message.name || "-"}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${message.email || "-"}
+                    </td>
+
+                    <td>
+                        ${message.destination || "-"}
+                    </td>
+
+                    <td style="max-width:350px;">
+                        ${message.message || "-"}
+                    </td>
+
+                    <td>
+                        ${message.created_at || "-"}
+                    </td>
+<td>
+
+    <button
+        onclick='replyToContactMessage(${JSON.stringify(message.email)}, ${JSON.stringify(message.name)})'
+        style="
+            background:#0d6efd;
+            color:white;
+            border:none;
+            padding:7px 12px;
+            border-radius:5px;
+            cursor:pointer;
+            margin-right:5px;
+        "
+    >
+        ↩️ Reply
+    </button>
+
+    <button
+        onclick="deleteContactMessage(${message.id})"
+        style="
+            background:#dc3545;
+            color:white;
+            border:none;
+            padding:7px 12px;
+            border-radius:5px;
+            cursor:pointer;
+        "
+    >
+        🗑️ Delete
+    </button>
+
+</td>
+
+                </tr>
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error(
+            "CONTACT MESSAGES ERROR:",
+            error
+        );
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="no-bookings">
+                    ❌ Failed to load contact messages
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+// ==========================================
+// DELETE CONTACT MESSAGE
+// ==========================================
+// ==========================================
+// REPLY TO CONTACT MESSAGE
+// ==========================================
+
+async function replyToContactMessage(email, name) {
+
+    const subject = prompt(
+        "Enter email subject:",
+        "Reply from Rahul Travel"
+    );
+
+    if (subject === null) {
+        return;
+    }
+
+    const reply = prompt(
+        `Write your reply to ${name || "Customer"}:`
+    );
+
+    if (reply === null || !reply.trim()) {
+        alert("Reply message cannot be empty.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "/api/contact-messages/reply",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    subject: subject,
+                    reply: reply
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(
+                result.message || "Failed to send reply."
+            );
+        }
+
+        alert(
+            "Reply email sent successfully! ✅"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "REPLY EMAIL ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to send reply email ❌\n" +
+            error.message
+        );
+    }
+}
+async function deleteContactMessage(id) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this message?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/api/contact-messages/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+
+            alert(
+                result.message || "Failed to delete message ❌"
+            );
+
+            return;
+        }
+
+        alert("Contact message deleted successfully! ✅");
+
+        loadContactMessages();
+
+    } catch (error) {
+
+        console.error(
+            "DELETE CONTACT MESSAGE ERROR:",
+            error
+        );
+
+        alert(
+            "Something went wrong while deleting the message ❌"
+        );
+
+    }
+}
+function updateDashboardCounts(bookings) {
+    const total = bookings.length;
+
+    const pending = bookings.filter(b =>
+        String(b.status || "").toLowerCase() === "pending"
+    ).length;
+
+    const confirmed = bookings.filter(b =>
+        String(b.status || "").toLowerCase() === "confirmed"
+    ).length;
+
+    const cancelled = bookings.filter(b =>
+        String(b.status || "").toLowerCase() === "cancelled"
+    ).length;
+
+    const completed = bookings.filter(b =>
+        String(b.status || "").toLowerCase() === "completed"
+    ).length;
+
+    document.getElementById("totalBookings").textContent = total;
+    document.getElementById("pendingBookings").textContent = pending;
+document.getElementById("confirmedBookings").textContent = confirmed;
+document.getElementById("cancelledBookings").textContent = cancelled;
+document.getElementById("completedBookings").textContent = completed;
+}
+// ===============================
+// FILTER BOOKINGS BY STATUS
+// ===============================
+
+function filterByStatus(status) {
+
+    if (status === "all") {
+        displayBookings(allBookings);
+        return;
+    }
+
+    const filteredBookings = allBookings.filter(booking =>
+        String(booking.status || "").toLowerCase() === status.toLowerCase()
+    );
+
+    displayBookings(filteredBookings);
+}
+// ==========================================
+// BOOKING SEARCH + STATUS FILTER
+// ==========================================
+
+function applyBookingFilters() {
+
+    const searchInput =
+        document.getElementById("bookingSearch");
+
+    const statusFilter =
+        document.getElementById("bookingStatusFilter");
+
+    if (!searchInput || !statusFilter) {
+        console.error("Search elements not found.");
+        return;
+    }
+
+    const searchText =
+        searchInput.value.trim().toLowerCase();
+
+    const selectedStatus =
+        statusFilter.value.trim().toLowerCase();
+
+    const filteredBookings =
+        (allBookings || []).filter(function (booking) {
+
+            const bookingId =
+                String(booking.booking_id || "").toLowerCase();
+
+            const name =
+                String(booking.name || "").toLowerCase();
+
+            const packageName =
+                String(booking.package_name || "").toLowerCase();
+
+            const email =
+                String(booking.email || "").toLowerCase();
+
+            const phone =
+                String(booking.phone || "").toLowerCase();
+
+            const status =
+                String(booking.status || "pending").toLowerCase();
+
+
+            const searchMatch =
+                searchText === "" ||
+                bookingId.includes(searchText) ||
+                name.includes(searchText) ||
+                packageName.includes(searchText) ||
+                email.includes(searchText) ||
+                phone.includes(searchText);
+
+
+            const statusMatch =
+                selectedStatus === "all" ||
+                status === selectedStatus;
+
+
+            return searchMatch && statusMatch;
+
+        });
+
+
+    console.log(
+        "SEARCH:",
+        searchText,
+        "STATUS:",
+        selectedStatus,
+        "RESULTS:",
+        filteredBookings.length
+    );
+
+
+    displayBookings(filteredBookings);
+
+}
+
+// ==========================================
+// CLEAR BOOKING FILTERS
+// ==========================================
+
+function clearBookingFilters() {
+
+    document.getElementById("bookingSearch").value = "";
+
+    document.getElementById("bookingStatusFilter").value = "all";
+
+    displayBookings(allBookings);
+
+}
+// ===============================
+// LOAD BOOKINGS
+// ===============================
+// ===============================
+// UPDATE DASHBOARD STATS
+// ===============================
+
+function updateDashboardStats(bookings) {
+
+    const total = bookings.length;
+
+    const pending = bookings.filter(
+        booking => String(booking.status || "").toLowerCase() === "pending"
+    ).length;
+
+    const confirmed = bookings.filter(
+        booking => String(booking.status || "").toLowerCase() === "confirmed"
+    ).length;
+
+    const cancelled = bookings.filter(
+        booking => String(booking.status || "").toLowerCase() === "cancelled"
+    ).length;
+
+    const completed = bookings.filter(
+        booking => String(booking.status || "").toLowerCase() === "completed"
+    ).length;
+
+    document.getElementById("totalBookings").textContent = total;
+    document.getElementById("pendingBookings").textContent = pending;
+    document.getElementById("confirmedBookings").textContent = confirmed;
+    document.getElementById("cancelledBookings").textContent = cancelled;
+    document.getElementById("completedBookings").textContent = completed;
+}
+async function loadBookings() {
+
+    const table = document.getElementById("bookingTable");
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="8" class="loading">
+                Loading bookings...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response = await fetch("/api/bookings");
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message || "Failed to load bookings");
+        }
+
+        allBookings = result.bookings || [];
+        updateDashboardCounts(allBookings);
+
+        displayBookings(allBookings);
+
+    } catch (error) {
+
+        console.error(error);
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="8" class="no-bookings">
+                    ❌ Failed to load bookings
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// ===============================
+// DISPLAY BOOKINGS
+// ===============================
+
+// ==========================================
+// BOOKING PAGINATION
+// ==========================================
+
+let currentBookingPage = 1;
+const bookingsPerPage = 5;
+let currentBookingsList = [];
+
+
+// ==========================================
+// DISPLAY BOOKINGS
+// ==========================================
+
+function displayBookings(bookings) {
+
+    currentBookingsList = bookings || [];
+    currentBookingPage = 1;
+
+    renderBookingPage();
+
+}
+
+
+// ==========================================
+// RENDER CURRENT BOOKING PAGE
+// ==========================================
+
+function renderBookingPage() {
+
+    const table =
+        document.getElementById("bookingTable");
+
+    const pagination =
+        document.getElementById("bookingPagination");
+
+
+    if (!currentBookingsList.length) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="8" class="no-bookings">
+                    No bookings found.
+                </td>
+            </tr>
+        `;
+
+        if (pagination) {
+            pagination.innerHTML = "";
+        }
+
+        return;
+    }
+
+
+    const totalPages =
+        Math.ceil(
+            currentBookingsList.length /
+            bookingsPerPage
+        );
+
+
+    if (currentBookingPage > totalPages) {
+        currentBookingPage = totalPages;
+    }
+
+
+    const startIndex =
+        (currentBookingPage - 1) *
+        bookingsPerPage;
+
+
+    const endIndex =
+        startIndex + bookingsPerPage;
+
+
+    const pageBookings =
+        currentBookingsList.slice(
+            startIndex,
+            endIndex
+        );
+
+
+    table.innerHTML =
+        pageBookings.map(booking => {
+
+            const status =
+                booking.status || "Pending";
+
+
+            let statusClass = "pending";
+
+
+            if (
+                status.toLowerCase() ===
+                "confirmed"
+            ) {
+                statusClass = "confirmed";
+            }
+
+
+            if (
+                status.toLowerCase() ===
+                "cancelled"
+            ) {
+                statusClass = "cancelled";
+            }
+
+
+            if (
+                status.toLowerCase() ===
+                "completed"
+            ) {
+                statusClass = "completed";
+            }
+
+
+            return `
+                <tr>
+
+                    <td class="booking-id">
+
+                        <button
+                            type="button"
+                            class="booking-id-button"
+                            onclick='openBookingModal(${JSON.stringify(booking).replace(/'/g, "&#39;")})'
+                        >
+                            ${booking.booking_id || "-"}
+                        </button>
+
+                    </td>
+
+
+                    <td>
+                        ${booking.package_name || "-"}
+                    </td>
+
+
+                    <td>
+                        ${booking.name || "-"}
+                    </td>
+
+
+                    <td>
+                        ${booking.email || "-"}
+                    </td>
+
+
+                    <td class="phone">
+                        ${booking.phone || "-"}
+                    </td>
+
+
+                    <td>
+                        ${booking.booking_date || "-"}
+                    </td>
+
+
+                    <td>
+                        ${booking.booking_time || "-"}
+                    </td>
+
+
+                    <td>
+
+                        <select
+                            class="status-select ${statusClass}"
+                            onchange="updateBookingStatus('${booking.booking_id}', this.value)"
+                        >
+
+                            <option
+                                value="Pending"
+                                ${status === "Pending" ? "selected" : ""}
+                            >
+                                Pending
+                            </option>
+
+
+                            <option
+                                value="Confirmed"
+                                ${status === "Confirmed" ? "selected" : ""}
+                            >
+                                Confirmed
+                            </option>
+
+
+                            <option
+                                value="Cancelled"
+                                ${status === "Cancelled" ? "selected" : ""}
+                            >
+                                Cancelled
+                            </option>
+
+
+                            <option
+                                value="Completed"
+                                ${status === "Completed" ? "selected" : ""}
+                            >
+                                Completed
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            type="button"
+                            onclick="deleteBooking('${booking.booking_id}')"
+                            style="
+                                margin-top:8px;
+                                padding:6px 10px;
+                                background:#dc3545;
+                                color:white;
+                                border:none;
+                                border-radius:5px;
+                                cursor:pointer;
+                                font-size:12px;
+                            "
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+
+
+    renderBookingPagination(totalPages);
+
+}
+
+
+// ==========================================
+// RENDER PAGINATION BUTTONS
+// ==========================================
+
+function renderBookingPagination(totalPages) {
+
+    const pagination =
+        document.getElementById(
+            "bookingPagination"
+        );
+
+
+    if (!pagination) {
+        return;
+    }
+
+
+    if (totalPages <= 1) {
+
+        pagination.innerHTML = "";
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    html += `
+        <button
+            type="button"
+            onclick="changeBookingPage(${currentBookingPage - 1})"
+            ${currentBookingPage === 1 ? "disabled" : ""}
+            style="
+                padding:8px 14px;
+                border:none;
+                border-radius:6px;
+                cursor:pointer;
+                background:#007bff;
+                color:white;
+            "
+        >
+            Previous
+        </button>
+    `;
+
+
+    for (
+        let page = 1;
+        page <= totalPages;
+        page++
+    ) {
+
+        html += `
+            <button
+                type="button"
+                onclick="changeBookingPage(${page})"
+                style="
+                    padding:8px 12px;
+                    border:none;
+                    border-radius:6px;
+                    cursor:pointer;
+                    background:${page === currentBookingPage ? "#28a745" : "#007bff"};
+                    color:white;
+                "
+            >
+                ${page}
+            </button>
+        `;
+
+    }
+
+
+    html += `
+        <button
+            type="button"
+            onclick="changeBookingPage(${currentBookingPage + 1})"
+            ${currentBookingPage === totalPages ? "disabled" : ""}
+            style="
+                padding:8px 14px;
+                border:none;
+                border-radius:6px;
+                cursor:pointer;
+                background:#007bff;
+                color:white;
+            "
+        >
+            Next
+        </button>
+    `;
+
+
+    pagination.innerHTML = html;
+
+}
+
+
+// ==========================================
+// CHANGE BOOKING PAGE
+// ==========================================
+
+function changeBookingPage(page) {
+
+    const totalPages =
+        Math.ceil(
+            currentBookingsList.length /
+            bookingsPerPage
+        );
+
+
+    if (page < 1 || page > totalPages) {
+        return;
+    }
+
+
+    currentBookingPage = page;
+
+    renderBookingPage();
+
+}
+// ===============================
+// UPDATE BOOKING STATUS
+// ===============================
+
+// ===============================
+// UPDATE BOOKING STATUS
+// ===============================
+
+async function updateBookingStatus(bookingId, status) {
+
+    try {
+
+        const response = await fetch(
+            `/api/bookings/${bookingId}/status`,
+            {
+                method: "PATCH",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    status: status
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(
+                result.message || "Failed to update booking status"
+            );
+        }
+
+        alert("Booking status updated successfully ✅");
+
+        loadBookings();
+
+    } catch (error) {
+
+        console.error("STATUS UPDATE ERROR:", error);
+
+        alert("❌ Failed to update booking status");
+
+        loadBookings();
+    }
+}
+
+
+// ===============================
+// SEARCH BOOKINGS
+// ===============================
+
+// ===============================
+// SEARCH + STATUS FILTER
+// ===============================
+
+function applyBookingFilters() {
+
+    const searchBox =
+        document.getElementById("searchBox");
+
+    const statusFilter =
+        document.getElementById("statusFilter");
+
+    const search =
+        searchBox.value.toLowerCase().trim();
+
+    const selectedStatus =
+        statusFilter.value.toLowerCase();
+
+    const filteredBookings =
+        allBookings.filter(booking => {
+
+            const bookingId =
+                String(booking.booking_id || "")
+                    .toLowerCase();
+
+            const packageName =
+                String(booking.package_name || "")
+                    .toLowerCase();
+
+            const name =
+                String(booking.name || "")
+                    .toLowerCase();
+
+            const email =
+                String(booking.email || "")
+                    .toLowerCase();
+
+            const phone =
+                String(booking.phone || "")
+                    .toLowerCase();
+
+            const bookingStatus =
+                String(booking.status || "")
+                    .toLowerCase();
+
+
+            const matchesSearch =
+                bookingId.includes(search) ||
+                packageName.includes(search) ||
+                name.includes(search) ||
+                email.includes(search) ||
+                phone.includes(search);
+
+
+            const matchesStatus =
+                selectedStatus === "all" ||
+                bookingStatus === selectedStatus;
+
+
+            return matchesSearch && matchesStatus;
+
+        });
+
+
+    displayBookings(filteredBookings);
+}
+// ==========================================
+// DELETE BOOKING
+// ==========================================
+
+async function deleteBooking(bookingId) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this booking?\n\n" +
+        "Booking ID: " + bookingId
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/api/bookings/${encodeURIComponent(bookingId)}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message || "Failed to delete booking."
+            );
+
+        }
+
+        alert("Booking deleted successfully ✅");
+
+        loadBookings();
+
+    } catch (error) {
+
+        console.error(
+            "DELETE BOOKING ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to delete booking ❌"
+        );
+
+    }
+}
+// ===============================
+// START
+// ===============================
+
+loadBookings();
+// ==========================================
+// BOOKING DETAILS MODAL
+// ==========================================
+
+function openBookingModal(booking) {
+    window.currentCustomerBooking = booking;
+
+    document.getElementById("detailBookingId").textContent =
+        booking.booking_id || "-";
+        const emailButton = document.getElementById("emailCustomerBtn");
+
+emailButton.onclick = function () {
+
+    if (!booking.email) {
+        alert("Customer email not available.");
+        return;
+    }
+
+    window.open(
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(booking.email)}`,
+        "_blank"
+    );
+
+};
+const callButton = document.getElementById("callCustomerBtn");
+
+callButton.onclick = function () {
+
+    if (!booking.phone) {
+        alert("Customer phone number not available.");
+        return;
+    }
+
+    const phone = String(booking.phone).replace(/\D/g, "");
+
+    window.open(
+        `https://wa.me/91${phone}`,
+        "_blank"
+    );
+
+};
+
+    document.getElementById("detailPackage").textContent =
+        booking.package_name || "-";
+
+    document.getElementById("detailName").textContent =
+        booking.name || "-";
+
+    document.getElementById("detailEmail").textContent =
+        booking.email || "-";
+
+    document.getElementById("detailPhone").textContent =
+        booking.phone || "-";
+
+    document.getElementById("detailDate").textContent =
+        booking.booking_date || "-";
+
+    document.getElementById("detailTime").textContent =
+        booking.booking_time || "-";
+
+    const statusElement = document.getElementById("detailStatus");
+
+const currentStatus = String(booking.status || "Pending");
+
+statusElement.textContent = currentStatus;
+
+// Remove previous status classes
+statusElement.classList.remove(
+    "status-pending",
+    "status-confirmed",
+    "status-cancelled",
+    "status-completed"
+);
+
+// Add correct status class
+statusElement.classList.add(
+    `status-${currentStatus.toLowerCase()}`
+);
+    document.getElementById("bookingModal").style.display = "flex";
+}
+// ==========================================
+// CUSTOMER CONTACT BUTTONS
+// ==========================================
+
+const emailButton = document.getElementById("emailCustomerBtn");
+const callButton = document.getElementById("callCustomerBtn");
+
+
+
+
+
+
+// ==========================================
+// CLOSE BOOKING DETAILS MODAL
+// ==========================================
+
+function closeBookingModal() {
+
+    document.getElementById("bookingModal").style.display = "none";
+
+}
+
+
+// ==========================================
+// CLOSE MODAL WHEN CLICKING OUTSIDE
+// ==========================================
+
+document.getElementById("bookingModal").addEventListener("click", function(event) {
+
+    if (event.target === this) {
+        closeBookingModal();
+    }
+
+});
+// ==========================================
+// CUSTOMER EMAIL MODAL
+// ==========================================
+
+function openCustomerEmailModal() {
+
+    const booking = window.currentCustomerBooking;
+
+    if (!booking) {
+        alert("Booking details not found.");
+        return;
+    }
+
+    document.getElementById("customerEmail").value =
+        booking.email || "";
+
+    document.getElementById("customerEmailName").value =
+        booking.name || "";
+
+    document.getElementById("customerEmailSubject").value =
+        `Regarding Your Rahul Travel Booking - ${booking.booking_id || ""}`;
+
+    document.getElementById("customerEmailMessage").value =
+        `Hello ${booking.name || "Customer"},
+
+Thank you for contacting Rahul Travel.
+
+Regarding your booking ${booking.booking_id || ""}, please find the details below.
+
+Package: ${booking.package_name || "-"}
+Booking Date: ${booking.booking_date || "-"}
+Booking Time: ${booking.booking_time || "-"}
+
+Please feel free to contact us if you have any questions.
+
+Regards,
+Rahul Travel`;
+
+    document.getElementById("customerEmailModal").style.display = "flex";
+}
+
+
+// ==========================================
+// CLOSE CUSTOMER EMAIL MODAL
+// ==========================================
+
+function closeCustomerEmailModal() {
+
+    document.getElementById("customerEmailModal").style.display = "none";
+
+}
+
+
+// ==========================================
+// SEND CUSTOMER EMAIL
+// ==========================================
+
+async function sendCustomerEmail() {
+
+    const email =
+        document.getElementById("customerEmail").value.trim();
+
+    const name =
+        document.getElementById("customerEmailName").value.trim();
+
+    const subject =
+        document.getElementById("customerEmailSubject").value.trim();
+
+    const message =
+        document.getElementById("customerEmailMessage").value.trim();
+
+
+    if (!email) {
+        alert("Customer email not available.");
+        return;
+    }
+
+    if (!message) {
+        alert("Please write a message.");
+        return;
+    }
+
+
+    const sendButton =
+        document.querySelector(".send-email-btn");
+
+    sendButton.disabled = true;
+    sendButton.textContent = "📤 Sending...";
+
+
+    try {
+
+        const response = await fetch(
+            "/api/send-customer-email",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    subject: subject,
+                    message: message
+                })
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message || "Failed to send email."
+            );
+
+        }
+
+
+        alert("Email sent successfully! ✅");
+
+        closeCustomerEmailModal();
+
+
+    } catch (error) {
+
+        console.error(
+            "CUSTOMER EMAIL ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to send email ❌\n\n" +
+            error.message
+        );
+
+    } finally {
+
+        sendButton.disabled = false;
+        sendButton.textContent = "📤 Send Email";
+
+    }
+
+}
+// ==========================================
+// ADMIN LOGOUT
+// ==========================================
+
+async function adminLogout() {
+
+    try {
+
+        const response = await fetch("/api/admin/logout", {
+            method: "POST"
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(
+                result.message || "Logout failed."
+            );
+        }
+
+        console.log("ADMIN LOGOUT SUCCESS ✅");
+
+        window.location.href = "/admin-login.html";
+
+    } catch (error) {
+
+        console.error("ADMIN LOGOUT ERROR:", error);
+
+        alert("Logout failed. Please try again.");
+
+    }
+
+}
+// ==========================================
+// PACKAGE MANAGEMENT
+// ==========================================
+
+let allPackages = [];
+
+
+// ==========================================
+// LOAD PACKAGES
+// ==========================================
+
+async function loadPackages() {
+
+    const table = document.getElementById("packageTable");
+
+    if (!table) {
+        return;
+    }
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="8" class="loading">
+                Loading packages...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const response = await fetch("/api/admin/packages");
+
+        const result = await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message || "Failed to load packages."
+            );
+
+        }
+
+        allPackages = result.packages || [];
+
+        renderPackages();
+
+    } catch (error) {
+
+        console.error(
+            "LOAD PACKAGES ERROR:",
+            error
+        );
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="8" class="no-bookings">
+                    ❌ Failed to load packages
+                </td>
+            </tr>
+        `;
+
+    }
+
+}
+
+
+// ==========================================
+// DISPLAY PACKAGES
+// ==========================================
+
+function renderPackages() {
+
+    const table = document.getElementById("packageTable");
+
+    if (!table) {
+        return;
+    }
+
+    if (!allPackages.length) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="8" class="no-bookings">
+                    📦 No packages found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    table.innerHTML = allPackages.map(pkg => {
+
+        const imageValue = pkg.image || "📦";
+
+        const imageHTML =
+            imageValue.startsWith("http")
+                ? `<img
+                    src="${imageValue}"
+                    class="package-image-preview"
+                    alt="Package"
+                   >`
+                : `<div
+                    style="
+                        width:55px;
+                        height:45px;
+                        display:grid;
+                        place-items:center;
+                        font-size:28px;
+                        background:#f3f4f6;
+                        border-radius:8px;
+                    "
+                   >
+                    ${imageValue}
+                   </div>`;
+
+
+        const statusClass =
+            String(pkg.status).toLowerCase() === "active"
+                ? "active"
+                : "inactive";
+
+
+        return `
+            <tr>
+
+                <td>
+                    ${pkg.id}
+                </td>
+
+                <td>
+                    ${imageHTML}
+                </td>
+
+                <td>
+                    <strong>
+                        ${pkg.name || "-"}
+                    </strong>
+                </td>
+
+                <td>
+                    ${pkg.destination || "-"}
+                </td>
+
+                <td>
+                    ${pkg.duration || "-"}
+                </td>
+
+                <td>
+                    ₹${Number(pkg.price || 0).toLocaleString("en-IN")}
+                </td>
+
+                <td>
+                    <span class="package-status ${statusClass}">
+                        ${pkg.status || "Active"}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="package-action-btn edit-package-btn"
+                        onclick="editPackage(${pkg.id})"
+                    >
+                        ✏️ Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="package-action-btn delete-package-btn"
+                        onclick="deletePackage(${pkg.id})"
+                    >
+                        🗑️ Delete
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+
+}
+
+
+// ==========================================
+// OPEN ADD PACKAGE FORM
+// ==========================================
+
+function openPackageForm() {
+
+    document.getElementById("packageFormTitle").textContent =
+        "➕ Add Package";
+
+    document.getElementById("packageId").value = "";
+
+    document.getElementById("packageName").value = "";
+
+    document.getElementById("packageDestination").value = "";
+
+    document.getElementById("packageDuration").value = "";
+
+    document.getElementById("packagePrice").value = "";
+
+    document.getElementById("packageDescription").value = "";
+
+    document.getElementById("packageImage").value = "";
+
+    document.getElementById("packageStatus").value = "Active";
+
+    document.getElementById("packageFormModal").style.display =
+        "flex";
+
+}
+
+
+// ==========================================
+// CLOSE PACKAGE FORM
+// ==========================================
+
+function closePackageForm() {
+
+    document.getElementById("packageFormModal").style.display =
+        "none";
+
+}
+
+
+// ==========================================
+// EDIT PACKAGE
+// ==========================================
+
+function editPackage(id) {
+
+    const pkg = allPackages.find(
+        packageItem => packageItem.id === id
+    );
+
+    if (!pkg) {
+
+        alert("Package not found.");
+
+        return;
+
+    }
+
+
+    document.getElementById("packageFormTitle").textContent =
+        "✏️ Edit Package";
+
+
+    document.getElementById("packageId").value =
+        pkg.id || "";
+
+
+    document.getElementById("packageName").value =
+        pkg.name || "";
+
+
+    document.getElementById("packageDestination").value =
+        pkg.destination || "";
+
+
+    document.getElementById("packageDuration").value =
+        pkg.duration || "";
+
+
+    document.getElementById("packagePrice").value =
+        pkg.price || "";
+
+
+    document.getElementById("packageDescription").value =
+        pkg.description || "";
+
+
+    document.getElementById("packageImage").value =
+        pkg.image || "";
+
+
+    document.getElementById("packageStatus").value =
+        pkg.status || "Active";
+
+
+    document.getElementById("packageFormModal").style.display =
+        "flex";
+
+}
+
+
+// ==========================================
+// SAVE PACKAGE
+// ==========================================
+
+async function savePackage() {
+
+    const id =
+        document.getElementById("packageId").value.trim();
+
+
+    const name =
+        document.getElementById("packageName").value.trim();
+
+
+    const destination =
+        document.getElementById("packageDestination").value.trim();
+
+
+    const duration =
+        document.getElementById("packageDuration").value.trim();
+
+
+    const price =
+        document.getElementById("packagePrice").value.trim();
+
+
+    const description =
+        document.getElementById("packageDescription").value.trim();
+
+
+    const image =
+        document.getElementById("packageImage").value.trim();
+
+
+    const status =
+        document.getElementById("packageStatus").value;
+
+
+    if (!name || !destination || !duration || !price) {
+
+        alert(
+            "Please fill Name, Destination, Duration and Price."
+        );
+
+        return;
+
+    }
+
+
+    const packageData = {
+
+        name,
+        destination,
+        duration,
+        price,
+        description,
+        image,
+        status
+
+    };
+
+
+    const isEditing = Boolean(id);
+
+
+    try {
+
+        const response = await fetch(
+            isEditing
+                ? `/api/admin/packages/${id}`
+                : "/api/admin/packages",
+            {
+                method: isEditing
+                    ? "PATCH"
+                    : "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(packageData)
+
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message || "Failed to save package."
+            );
+
+        }
+
+
+        alert(
+            isEditing
+                ? "Package updated successfully! ✅"
+                : "Package added successfully! ✅"
+        );
+
+
+        closePackageForm();
+
+        loadPackages();
+
+
+    } catch (error) {
+
+        console.error(
+            "SAVE PACKAGE ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to save package ❌\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// DELETE PACKAGE
+// ==========================================
+
+async function deletePackage(id) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this package?"
+    );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `/api/admin/packages/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message || "Failed to delete package."
+            );
+
+        }
+
+
+        alert(
+            "Package deleted successfully! ✅"
+        );
+
+
+        loadPackages();
+
+
+    } catch (error) {
+
+        console.error(
+            "DELETE PACKAGE ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to delete package ❌\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD PACKAGES WHEN ADMIN OPENS
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadPackages();
+
+    }
+);
+// ==========================================
+// EXPORT BOOKINGS
+// ==========================================
+
+function exportBookings() {
+
+    if (!allBookings || !allBookings.length) {
+        alert("No bookings available to export.");
+        return;
+    }
+
+    const headers = [
+        "Booking ID",
+        "Package",
+        "Name",
+        "Email",
+        "Phone",
+        "Date",
+        "Time",
+        "Status"
+    ];
+
+    const rows = allBookings.map(booking => [
+
+        booking.booking_id || "",
+        booking.package_name || "",
+        booking.name || "",
+        booking.email || "",
+        booking.phone || "",
+        booking.booking_date || "",
+        booking.booking_time || "",
+        booking.status || ""
+
+    ]);
+
+    const csv = [
+        headers,
+        ...rows
+    ]
+    .map(row =>
+        row.map(value =>
+            `"${String(value).replace(/"/g, '""')}"`
+        ).join(",")
+    )
+    .join("\n");
+
+    const blob = new Blob(
+        [csv],
+        {
+            type: "text/csv;charset=utf-8;"
+        }
+    );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+    link.download =
+        `rahul-travel-bookings-${new Date().toISOString().slice(0,10)}.csv`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+    alert("Bookings exported successfully ✅");
+}
+window.applyBookingFilters = function () {
+
+    const searchInput =
+        document.getElementById("bookingSearch");
+
+    const statusFilter =
+        document.getElementById("bookingStatusFilter");
+
+    const searchText =
+        (searchInput?.value || "").trim().toLowerCase();
+
+    const selectedStatus =
+        (statusFilter?.value || "all").trim().toLowerCase();
+
+
+    const filteredBookings =
+        (window.allBookings || allBookings || []).filter(function (booking) {
+
+            const bookingId =
+                String(booking.booking_id || "").toLowerCase();
+
+            const name =
+                String(booking.name || "").toLowerCase();
+
+            const packageName =
+                String(booking.package_name || "").toLowerCase();
+
+            const email =
+                String(booking.email || "").toLowerCase();
+
+            const phone =
+                String(booking.phone || "").toLowerCase();
+
+            const status =
+                String(booking.status || "pending").toLowerCase();
+
+
+            const matchesSearch =
+                searchText === "" ||
+                bookingId.includes(searchText) ||
+                name.includes(searchText) ||
+                packageName.includes(searchText) ||
+                email.includes(searchText) ||
+                phone.includes(searchText);
+
+
+            const matchesStatus =
+                selectedStatus === "all" ||
+                status === selectedStatus;
+
+
+            return matchesSearch && matchesStatus;
+
+        });
+
+
+    displayBookings(filteredBookings);
+
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RAHUL TRAVEL</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #111;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: #0077ff;
+        }
+
+   .hero {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 119, 255, 0.12), transparent 35%),
+        radial-gradient(circle at 80% 70%, rgba(0, 180, 255, 0.10), transparent 35%),
+        linear-gradient(135deg, #eaf4ff, #ffffff);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.small-text {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #0077ff;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: 56px;
+    line-height: 1.15;
+    margin-bottom: 20px;
+}
+
+.hero-text {
+    font-size: 19px;
+    color: #555;
+    margin-bottom: 35px;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    max-width: 650px;
+    margin: 25px auto 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 80, 180, 0.12);
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 17px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-box button {
+    padding: 17px 30px;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    background: #0077ff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: #005fcc;
+}
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #555;
+        }
+        .destinations {
+    padding: 80px 50px;
+    background: #ffffff;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title p {
+    color: #0077ff;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.section-title h2 {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.section-title span {
+    color: #666;
+    font-size: 17px;
+}
+
+.destination-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.destination-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+    transition: 0.3s;
+}
+
+.destination-card:hover {
+    transform: translateY(-8px);
+}
+
+.destination-image {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+    background: #eaf4ff;
+}
+
+.destination-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.destination-info h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.destination-info p {
+    color: #666;
+    margin-bottom: 18px;
+}
+
+.destination-info button {
+    border: none;
+    background: #0077ff;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.destination-info button:hover {
+    background: #005fcc;
+}
+
+@media (max-width: 900px) {
+    .destination-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .destination-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.packages {
+    padding: 80px 50px;
+    background: #ffffff;
+}
+
+.package-grid {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.package-card {
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eef2f7;
+}
+
+.package-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.package-image {
+    height: 190px;
+    background: #eaf4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 75px;
+    overflow: hidden;
+}
+
+.package-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.package-info {
+    padding: 25px;
+}
+
+.package-info h3 {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #111827;
+}
+
+.package-info p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.package-info h4 {
+    font-size: 22px;
+    color: #0077ff;
+    margin-bottom: 18px;
+}
+
+.package-info button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #0077ff;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(0, 119, 255, 0.20);
+}
+
+.package-info button:hover {
+    background: #005fcc;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 16px rgba(0, 119, 255, 0.30);
+}
+.about {
+    padding: 90px 50px;
+    background: #eaf4ff;
+}
+
+.about-content {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.about-small {
+    color: #0077ff;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.about-text h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    color: #555;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.about-text button {
+    margin-top: 10px;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 7px;
+    background: #0077ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.about-image {
+    height: 330px;
+    border-radius: 20px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 140px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+.contact {
+    padding: 90px 50px;
+    background: #ffffff;
+}
+
+.contact-container {
+    max-width: 1100px;
+    margin: 45px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+}
+
+.contact-info {
+    padding: 30px;
+}
+
+.contact-info h3 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.contact-info > p {
+    color: #555;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 22px;
+}
+
+.contact-item strong {
+    font-size: 17px;
+}
+
+.contact-item span {
+    color: #666;
+}
+
+.contact-form {
+    padding: 30px;
+    background: #eaf4ff;
+    border-radius: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 16px;
+    outline: none;
+    font-family: Arial, sans-serif;
+}
+
+.contact-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.contact-form button {
+    padding: 14px 25px;
+    border: none;
+    border-radius: 7px;
+    background: #0077ff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background: #005fcc;
+}
+/* =========================
+   BOOKING STATUS
+========================= */
+
+.booking-status-section {
+    padding: 80px 20px;
+    background: #f8fbff;
+    text-align: center;
+}
+
+.booking-status-section .section-title {
+    margin-bottom: 35px;
+}
+
+.booking-status-box {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 35px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.booking-status-box input {
+    width: 70%;
+    padding: 15px 18px;
+    border: 1px solid #d5dce5;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    margin-right: 8px;
+}
+
+.booking-status-box input:focus {
+    border-color: #0878f9;
+}
+
+.booking-status-box button {
+    padding: 15px 22px;
+    background: #0878f9;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.booking-status-box button:hover {
+    background: #0568dc;
+}
+
+#bookingStatusResult {
+    margin-top: 25px;
+    font-size: 16px;
+    line-height: 1.8;
+}
+/* Booking Status Colors */
+
+.booking-status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.booking-status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.booking-status-confirmed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.booking-status-completed {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.booking-status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="#" class="logo">RAHUL TRAVEL</a>
+<ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+</ul>
+
+    </header>
+
+    <section class="hero" id="home">
+
+    <div class="hero-content">
+        <p class="small-text">DISCOVER • EXPLORE • TRAVEL</p>
+
+        <h1>Explore the World<br>with RAHUL TRAVEL 🌍</h1>
+
+        <p class="hero-text">
+            Discover amazing destinations and plan your perfect journey with us.
+        </p>
+
+    <div class="search-box">
+    <input type="text" id="destinationSearch" placeholder="Where do you want to go?">
+    <button type="button" id="searchButton">Search</button>
+    </div>
+<div id="searchResults"></div>
+</div>
+
+</section>
+<section class="destinations" id="destinations">
+    <div class="section-title">
+        <p>TRAVEL • DISCOVER • ENJOY</p>
+        <h2>Popular Destinations</h2>
+        <span>Explore some of the most beautiful places in India</span>
+    </div>
+
+    <div class="destination-grid">
+
+        <div class="destination-card">
+            <div class="destination-image">🏔️</div>
+            <div class="destination-info">
+                <h3>Manali</h3>
+                <p>Himachal Pradesh</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="destination-image">🏖️</div>
+            <div class="destination-info">
+                <h3>Goa</h3>
+                <p>Beautiful Beaches</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="destination-image">🏰</div>
+            <div class="destination-info">
+                <h3>Jaipur</h3>
+                <p>Rajasthan</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="destination-image">🌿</div>
+            <div class="destination-info">
+                <h3>Kerala</h3>
+                <p>God's Own Country</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section class="destinations">
+    <div class="section-title">
+        <p>TRAVEL • DISCOVER • ENJOY</p>
+        <h2>Popular Destinations</h2>
+        <span>Explore some of the most beautiful places in India.</span>
+    </div>
+
+    <div class="destination-grid">
+
+        <div class="destination-card">
+            <div class="destination-image">🏔️</div>
+            <div class="destination-info">
+                <h3>Kashmir</h3>
+                <p>Heaven on Earth</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="destination-image">🏖️</div>
+            <div class="destination-info">
+                <h3>Goa</h3>
+                <p>Beaches & Fun</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="destination-image">🏰</div>
+            <div class="destination-info">
+                <h3>Rajasthan</h3>
+                <p>Royal Heritage</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <div class="destination-image">🏞️</div>
+            <div class="destination-info">
+                <h3>Manali</h3>
+                <p>Mountains & Adventure</p>
+                <button>Explore</button>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section class="packages" id="packages">
+
+    <div class="section-title">
+        <p>PLAN • BOOK • ENJOY</p>
+        <h2>Popular Travel Packages</h2>
+        <span>Choose the perfect package for your next adventure.</span>
+    </div>
+
+<div
+    class="package-grid"
+    id="websitePackageGrid"
+>
+
+    <div class="package-card">
+
+        <div class="package-image">
+            📦
+        </div>
+
+        <div class="package-info">
+
+            <h3>Loading Packages...</h3>
+
+            <p>Please wait...</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+<section class="about" id="about">
+
+    <div class="about-content">
+
+        <div class="about-text">
+            <p class="about-small">ABOUT RAHUL TRAVEL</p>
+
+            <h2>We Make Your Journey Special ✈️</h2>
+
+            <p>
+                At RAHUL TRAVEL, we help you discover beautiful places,
+                exciting adventures and unforgettable experiences.
+            </p>
+
+            <p>
+                From choosing your destination to planning your trip,
+                we are here to make your journey simple, comfortable and memorable.
+            </p>
+
+            <button>Learn More</button>
+        </div>
+
+        <div class="about-image">
+            🌍
+        </div>
+
+    </div>
+
+</section>
+<!-- CHECK BOOKING STATUS -->
+<section class="booking-status-section" id="booking-status">
+    <div class="section-title">
+        <p>TRACK YOUR BOOKING</p>
+        <h2>Check Booking Status</h2>
+        <span>Enter your Booking ID to check the latest status.</span>
+    </div>
+
+    <div class="booking-status-box">
+        <input
+            type="text"
+            id="bookingIdInput"
+            placeholder="Enter your Booking ID"
+            onkeydown="if(event.key === 'Enter') checkBookingStatus()"
+        >
+
+        <button type="button" onclick="checkBookingStatus()">
+            🔍 Check Status
+        </button>
+
+        <div id="bookingStatusResult"></div>
+    </div>
+</section>
+<section class="contact" id="contact">
+
+    <div class="section-title">
+        <p>GET IN TOUCH</p>
+        <h2>Contact Us</h2>
+        <span>Have a question? We would love to hear from you.</span>
+    </div>
+
+    <div class="contact-container">
+
+        <div class="contact-info">
+            <h3>Let's Plan Your Trip ✈️</h3>
+
+            <p>
+                Tell us where you want to go and we will help
+                you plan your perfect journey.
+            </p>
+
+            <div class="contact-item">
+                <strong>📍 Address</strong>
+                <span>Shopping Center,
+                    Sector - 9/D, 
+                    Plot no.:- 08,
+                    Bokaro Steel City, JHARKHAND,  827009 
+                </span>
+            </div>
+
+            <div class="contact-item">
+                <strong>📞 Phone</strong>
+                <span>+91 8986827092</span>
+            </div>
+
+            <div class="contact-item">
+                <strong>✉️ Email</strong>
+                <span>niteshkumarsinha94@gmail.com</span>
+            </div>
+        </div>
+
+       <form class="contact-form" id="contactForm">
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Your Name"
+        required
+    >
+
+    <input
+        type="email"
+        id="email"
+        placeholder="Your Email"
+        required
+    >
+
+    <input
+        type="text"
+        id="destination"
+        placeholder="Your Destination"
+        required
+    >
+
+    <textarea
+        id="message"
+        placeholder="Tell us about your trip"
+        required
+    ></textarea>
+
+    <button type="submit">Send Message</button>
+
+</form>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const destination = document.getElementById("destination").value;
+    const message = document.getElementById("message").value;
+
+    try {
+
+        const response = await fetch("/send-message", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                destination: destination,
+                message: message
+            })
+        });
+
+const result = await response.json();
+
+if (result.success) {
+
+    alert(
+        "🎉 Request Submitted!\n\n" +
+        "Your trip request has been submitted successfully.\n" +
+        "📧 Confirmation email sent successfully.\n\n" +
+        "Our Experts will contact you as soon as possible."
+    );
+
+    document.getElementById("contactForm").reset();
+
+} else {
+
+    alert("Message could not be sent ❌");
+
+}
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Something went wrong. Please try again.");
+
+    }
+
+});
+// ==========================================
+// LOAD PACKAGES FROM DATABASE
+// ==========================================
+
+async function loadWebsitePackages() {
+
+    const packageGrid =
+        document.getElementById("websitePackageGrid");
+
+    if (!packageGrid) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch("/api/packages");
+
+        const result =
+            await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message ||
+                "Failed to load packages."
+            );
+
+        }
+
+        const packages =
+            result.packages || [];
+
+
+        if (!packages.length) {
+
+            packageGrid.innerHTML = `
+                <div class="package-card">
+
+                    <div class="package-info">
+
+                        <h3>No Packages Available</h3>
+
+                        <p>
+                            Please check again later.
+                        </p>
+
+                    </div>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        packageGrid.innerHTML =
+            packages.map(pkg => {
+
+                const image =
+                    pkg.image || "📦";
+
+
+                const imageHTML =
+                    image.startsWith("http")
+                        ? `
+                            <img
+                                src="${image}"
+                                alt="${pkg.name}"
+                                style="
+                                    width:100%;
+                                    height:100%;
+                                    object-fit:cover;
+                                "
+                            >
+                          `
+                        : image;
+
+
+                return `
+                    <div class="package-card">
+
+                        <div class="package-image">
+                            ${imageHTML}
+                        </div>
+
+                        <div class="package-info">
+
+                            <h3>
+                                ${pkg.name}
+                            </h3>
+
+                            <p>
+                                ${pkg.duration || ""}
+                            </p>
+
+                            <h4>
+                                ₹${Number(
+                                    pkg.price || 0
+                                ).toLocaleString("en-IN")}
+                            </h4>
+
+                            <button
+                                onclick="openDatabasePackage(${pkg.id})"
+                            >
+                                View Package
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            }).join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "WEBSITE PACKAGES ERROR:",
+            error
+        );
+
+        packageGrid.innerHTML = `
+            <div class="package-card">
+
+                <div class="package-info">
+
+                    <h3>
+                        ❌ Failed to load packages
+                    </h3>
+
+                    <p>
+                        Please refresh the page.
+                    </p>
+
+                </div>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+// ==========================================
+// OPEN DATABASE PACKAGE
+// ==========================================
+
+async function openDatabasePackage(id) {
+
+    try {
+
+        const response = await fetch("/api/packages");
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(
+                result.message || "Failed to load package."
+            );
+        }
+
+        const pkg = (result.packages || []).find(
+            item => item.id === id
+        );
+
+        if (!pkg) {
+            alert("Package not found.");
+            return;
+        }
+
+        const oldModal =
+            document.getElementById("packageModal");
+
+        if (oldModal) {
+            oldModal.remove();
+        }
+
+        const modal =
+            document.createElement("div");
+
+        modal.id = "packageModal";
+
+        modal.innerHTML = `
+            <div style="
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,0.6);
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                z-index:9999;
+            ">
+
+                <div style="
+                    background:white;
+                    width:90%;
+                    max-width:500px;
+                    padding:30px;
+                    border-radius:15px;
+                    text-align:center;
+                    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+                ">
+
+                    <h2>${pkg.name}</h2>
+
+                    <p>
+                        <strong>Destination:</strong>
+                        ${pkg.destination || "-"}
+                    </p>
+
+                    <p>
+                        <strong>Duration:</strong>
+                        ${pkg.duration || "-"}
+                    </p>
+
+                    <p>
+                        <strong>Price:</strong>
+                        ₹${Number(pkg.price || 0).toLocaleString("en-IN")}
+                    </p>
+
+                    <p>
+                        ${pkg.description || ""}
+                    </p>
+
+                    <button
+                        id="databaseBookNowButton"
+                        style="
+                            padding:10px 25px;
+                            background:#28a745;
+                            color:white;
+                            border:none;
+                            border-radius:6px;
+                            cursor:pointer;
+                            margin-right:10px;
+                        "
+                    >
+                        Book Now
+                    </button>
+
+                    <button
+                        id="databaseCloseButton"
+                        style="
+                            padding:10px 25px;
+                            background:#007bff;
+                            color:white;
+                            border:none;
+                            border-radius:6px;
+                            cursor:pointer;
+                        "
+                    >
+                        Close
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        document
+            .getElementById("databaseBookNowButton")
+            .addEventListener("click", function () {
+
+                bookPackage(pkg.name);
+
+            });
+
+        document
+            .getElementById("databaseCloseButton")
+            .addEventListener("click", function () {
+
+                document
+                    .getElementById("packageModal")
+                    .remove();
+
+            });
+
+    } catch (error) {
+
+        console.error(
+            "OPEN DATABASE PACKAGE ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to open package ❌"
+        );
+
+    }
+}
+
+// ==========================================
+// LOAD DATABASE PACKAGES ON PAGE LOAD
+// ==========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadWebsitePackages();
+
+    }
+);
+</script>
+
+    </div>
+<!-- Package Details Modal -->
+
+<div id="packageModal" class="package-modal" style="display: none;">
+
+    <div class="package-modal-content">
+
+        <button class="close-package" onclick="closePackage()">×</button>
+
+        <h2 id="packageTitle"></h2>
+
+        <p id="packageDuration"></p>
+
+        <h3 id="packagePrice"></h3>
+
+        <div class="package-details">
+
+            <p>🏨 <strong>Stay:</strong> Comfortable Hotel</p>
+
+            <p>🍽️ <strong>Meals:</strong> Breakfast Included</p>
+
+            <p>🚗 <strong>Transport:</strong> Local Sightseeing</p>
+
+            <p>📸 <strong>Activities:</strong> Sightseeing & Adventure</p>
+
+        </div>
+
+        <button class="book-package" onclick="goToContact()">
+            Book / Contact Us
+        </button>
+
+    </div>
+
+</div>
+<script>
+
+function openPackage(packageName) {
+
+const packages = {
+    goa: {
+        title: "Goa Holiday",
+        duration: "3 Days / 2 Nights",
+        price: "₹8,999",
+        description: "Enjoy beautiful beaches, amazing views and a relaxing Goa holiday."
+    },
+jaipur: {
+    title: "Jaipur Royal Tour",
+    duration: "4 Days / 3 Nights",
+    price: "₹10,999",
+    description: "Explore beautiful forts, palaces and the royal culture of Jaipur."
+},
+
+kerala: {
+    title: "Kerala Paradise",
+    duration: "5 Days / 4 Nights",
+    price: "₹14,999",
+    description: "Enjoy Kerala's beautiful beaches, backwaters, greenery and peaceful views."
+},
+
+    manali: {
+        title: "Manali Adventure",
+        duration: "5 Days / 4 Nights",
+        price: "₹12,999",
+        description: "Enjoy beautiful mountains, amazing views and an exciting Manali adventure."
+    },
+
+    kashmir: {
+        title: "Kashmir Paradise",
+        duration: "6 Days / 5 Nights",
+        price: "₹16,999",
+        description: "Explore the beautiful valleys, mountains and peaceful scenery of Kashmir."
+    }
+};
+
+    const pkg = packages[packageName];
+
+    if (!pkg) {
+        return;
+    }
+
+    const oldModal = document.getElementById("packageModal");
+
+    if (oldModal) {
+        oldModal.remove();
+    }
+
+    const modal = document.createElement("div");
+
+    modal.id = "packageModal";
+
+    modal.innerHTML = `
+        <div style="
+           position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.6);
+backdrop-filter: blur(4px);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+padding: 20px;
+        ">
+
+            <div style="
+               background: #ffffff;
+width: 90%;
+max-width: 500px;
+padding: 32px;
+border-radius: 20px;
+text-align: center;
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+border: 1px solid #eef2f7;
+            ">
+
+                <h2>${pkg.title}</h2>
+
+                <p><strong>Duration:</strong> ${pkg.duration}</p>
+
+                <p><strong>Price:</strong> ${pkg.price}</p>
+
+                <p>${pkg.description}</p>
+<button 
+    id="databaseBookNowButton"
+    style="
+        padding: 10px 25px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 10px;
+    ">
+    Book Now
+</button>
+
+<button onclick="document.getElementById('packageModal').remove()"
+    style="
+        padding: 10px 25px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    ">
+    Close
+</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    const databaseBookNowButton =
+    document.getElementById("databaseBookNowButton");
+
+if (databaseBookNowButton) {
+
+    databaseBookNowButton.addEventListener(
+        "click",
+        function () {
+
+            bookPackage(pkg.name);
+
+        }
+    );
+
+}
+}
+function bookPackage(packageName) {
+
+    const bookingModal = document.createElement("div");
+
+    bookingModal.id = "bookingModal";
+
+    bookingModal.innerHTML = `
+        <div style="
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        ">
+
+            <div style="
+                background: white;
+                width: 90%;
+                max-width: 500px;
+                padding: 30px;
+                border-radius: 15px;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            ">
+
+                <h2>Book Your Trip</h2>
+
+                <p><strong>Package:</strong> ${packageName}</p>
+
+                <input
+                    type="text"
+                    id="bookingName"
+                    placeholder="Enter your name"
+                    style="
+                        width: 90%;
+                        padding: 12px;
+                        margin: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 6px;
+                    "
+                >
+
+                <input
+                    type="email"
+                    id="bookingEmail"
+                    placeholder="Enter your email"
+                    style="
+                        width: 90%;
+                        padding: 12px;
+                        margin: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 6px;
+                    "
+                >
+
+                <input
+                    type="tel"
+                    id="bookingPhone"
+                    placeholder="Enter your phone number"
+                    style="
+                        width: 90%;
+                        padding: 12px;
+                        margin: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 6px;
+                    "
+                >
+
+                <br>
+
+                <button onclick="submitBooking('${packageName}')"
+                    style="
+                        padding: 10px 25px;
+                        background: #28a745;
+                        color: white;
+                        border: none;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        margin: 10px;
+                    ">
+                    Confirm Booking
+                </button>
+
+                <button onclick="document.getElementById('bookingModal').remove()"
+                    style="
+                        padding: 10px 25px;
+                        background: #007bff;
+                        color: white;
+                        border: none;
+                        border-radius: 6px;
+                        cursor: pointer;
+                    ">
+                    Cancel
+                </button>
+
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(bookingModal);
+}
+
+
+async function submitBooking(packageName) {
+
+    const name = document.getElementById("bookingName").value.trim();
+    const email = document.getElementById("bookingEmail").value.trim();
+    const phone = document.getElementById("bookingPhone").value.trim();
+
+    if (!name || !email || !phone) {
+        alert("Please fill all fields.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("/send-booking", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                packageName: packageName,
+                name: name,
+                email: email,
+                phone: phone
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+alert(
+    "🎉 Booking Confirmed!\n\n" +
+    "Your booking has been submitted successfully.\n" +
+    "📧 Confirmation email sent successfully.\n\n" +
+    "Our Experts will contact you as soon as possible."
+);
+            document.getElementById("bookingModal").remove();
+
+        } else {
+
+            alert("Booking failed: " + result.message);
+
+        }
+
+    } catch (error) {
+
+        console.error("BOOKING ERROR:", error);
+        alert("Something went wrong. Please try again.");
+
+    }
+}
+async function checkBookingStatus() {
+    const bookingId = document.getElementById("bookingIdInput").value.trim();
+    const resultBox = document.getElementById("bookingStatusResult");
+
+    if (!bookingId) {
+        resultBox.innerHTML = "⚠️ Please enter your Booking ID.";
+        return;
+    }
+
+    resultBox.innerHTML = "🔄 Checking booking status...";
+
+    try {
+        const response = await fetch(`/api/bookings/${encodeURIComponent(bookingId)}`);
+        const result = await response.json();
+
+        if (response.ok && result.success && result.booking) {
+            const booking = result.booking;
+resultBox.innerHTML = `
+    <div>
+        <strong>Booking ID:</strong> ${booking.booking_id}<br>
+        <strong>Package:</strong> ${booking.package_name}<br>
+        <strong>Name:</strong> ${booking.name}<br>
+        <strong>Status:</strong>
+        <span class="booking-status booking-status-${String(booking.status || "Pending").toLowerCase()}">
+            ${booking.status || "Pending"}
+        </span>
+    </div>
+`;
+        } else {
+            resultBox.innerHTML = "❌ Booking not found.";
+        }
+
+    } catch (error) {
+        console.error("BOOKING STATUS ERROR:", error);
+        resultBox.innerHTML = "❌ Unable to check booking status.";
+    }
+}
+   
+// ==========================================
+// DATABASE PACKAGE SEARCH
+// ==========================================
+
+document.getElementById("searchButton").addEventListener("click", async function () {
+
+    const searchInput =
+        document.getElementById("destinationSearch");
+
+    const destination =
+        searchInput.value.trim().toLowerCase();
+
+    if (destination === "") {
+
+        alert("Please enter a destination.");
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch("/api/packages");
+
+        const result =
+            await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message ||
+                "Failed to load packages."
+            );
+
+        }
+
+        const packages =
+            result.packages || [];
+
+
+        const matchedPackages =
+            packages.filter(pkg => {
+
+                const name =
+                    String(pkg.name || "")
+                        .toLowerCase();
+
+                const packageDestination =
+                    String(pkg.destination || "")
+                        .toLowerCase();
+
+                return (
+                    name.includes(destination) ||
+                    packageDestination.includes(destination)
+                );
+
+            });
+
+
+        if (matchedPackages.length > 0) {
+
+
+
+            const packageGrid =
+                document.getElementById(
+                    "websitePackageGrid"
+                );
+
+            if (packageGrid) {
+
+                packageGrid.innerHTML =
+                    matchedPackages.map(pkg => {
+
+                        const image =
+                            pkg.image || "📦";
+
+                        const imageHTML =
+                            image.startsWith("http")
+                                ? `
+                                    <img
+                                        src="${image}"
+                                        alt="${pkg.name}"
+                                        style="
+                                            width:100%;
+                                            height:100%;
+                                            object-fit:cover;
+                                        "
+                                    >
+                                  `
+                                : image;
+
+                        return `
+                            <div class="package-card">
+
+                                <div class="package-image">
+                                    ${imageHTML}
+                                </div>
+
+                                <div class="package-info">
+
+                                    <h3>
+                                        ${pkg.name}
+                                    </h3>
+
+                                    <p>
+                                        ${pkg.destination || ""}
+                                    </p>
+
+                                    <p>
+                                        ${pkg.duration || ""}
+                                    </p>
+
+                                    <h4>
+                                        ₹${Number(
+                                            pkg.price || 0
+                                        ).toLocaleString("en-IN")}
+                                    </h4>
+
+                                    <button
+                                        onclick="openDatabasePackage(${pkg.id})"
+                                    >
+                                        View Package
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                    }).join("");
+                     packageGrid.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+
+        } else {
+
+            alert(
+                "Sorry, destination/package not found."
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "PACKAGE SEARCH ERROR:",
+            error
+        );
+
+        alert(
+            "Unable to search packages."
+        );
+
+    }
+
+});
+document.getElementById("destinationSearch").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        document.getElementById("searchButton").click();
+    }
+});
+</script>
+
+<footer style="
+    background: #111827;
+    color: white;
+    padding: 40px 20px 20px;
+    text-align: center;
+    margin-top: 60px;
+">
+    <div style="
+        max-width: 1100px;
+        margin: auto;
+    ">
+        <h2 style="
+            margin: 0 0 10px;
+            font-size: 24px;
+        ">
+            RAHUL TRAVEL 🌍
+        </h2>
+
+        <p style="
+            margin: 0 auto 20px;
+            color: #cbd5e1;
+            max-width: 600px;
+            line-height: 1.6;
+        ">
+            Discover amazing destinations and plan your perfect journey with us.
+        </p>
+
+        <div style="
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        ">
+            <a href="#home" style="color: white; text-decoration: none;">Home</a>
+            <a href="#destinations" style="color: white; text-decoration: none;">Destinations</a>
+            <a href="#packages" style="color: white; text-decoration: none;">Packages</a>
+            <a href="#about" style="color: white; text-decoration: none;">About</a>
+            <a href="#contact" style="color: white; text-decoration: none;">Contact</a>
+        </div>
+
+        <hr style="
+            border: none;
+            border-top: 1px solid #374151;
+            margin: 0 0 20px;
+        ">
+
+        <p style="
+            margin: 0;
+            color: #94a3b8;
+            font-size: 14px;
+        ">
+            © 2026 Rahul Travel. All rights reserved.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
+    
