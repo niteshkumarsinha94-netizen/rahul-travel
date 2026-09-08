@@ -312,24 +312,67 @@ app.get("/admin.html", (req, res) => {
 // Serve website
 app.use(express.static(path.join(__dirname, "public")));
 
-// Gmail transporter
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+// Brevo Email API
+const transporter = {
+    sendMail: async function (mailOptions, callback) {
+        try {
+            const toList = Array.isArray(mailOptions.to)
+                ? mailOptions.to.map(email =>
+                    typeof email === "string" ? { email } : email
+                )
+                : [{ email: mailOptions.to }];
 
-// Check Gmail connection
-transporter.verify((error, success) => {
-    if (error) {
-        console.error("GMAIL LOGIN FAILED ❌");
-        console.error(error);
-    } else {
-        console.log("GMAIL LOGIN SUCCESS ✅");
+            const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "api-key": process.env.BREVO_API_KEY,
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    sender: {
+                        email: process.env.EMAIL_USER,
+                        name: "Rahul Travel"
+                    },
+                    to: toList,
+                    subject: mailOptions.subject || "",
+                    htmlContent: mailOptions.html || "",
+                    textContent: mailOptions.text || ""
+                })
+            });
+
+            const data = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message || `Brevo API error: ${response.status}`
+                );
+            }
+
+            const info = {
+                messageId: data.messageId
+            };
+
+            console.log("BREVO EMAIL SENT ✅");
+
+            if (callback) {
+                callback(null, info);
+            }
+
+            return info;
+
+        } catch (error) {
+            console.error("BREVO EMAIL FAILED ❌");
+            console.error(error);
+
+            if (callback) {
+                callback(error);
+            }
+
+            throw error;
+        }
     }
-});
+};
 
 
 // ==========================================
