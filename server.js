@@ -321,12 +321,14 @@ const transporter = {
                     typeof email === "string" ? { email } : email
                 )
                 : [{ email: mailOptions.to }];
-
+const brevoApiKey = (process.env.BREVO_API_KEY || "").trim();
+console.log("BREVO KEY STATUS:", brevoApiKey ? `LOADED (${brevoApiKey.length} chars)` : "MISSING");
             const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+
                 method: "POST",
                 headers: {
                     "accept": "application/json",
-                    "api-key": process.env.BREVO_API_KEY,
+                    "api-key": brevoApiKey,
                     "content-type": "application/json"
                 },
                 body: JSON.stringify({
