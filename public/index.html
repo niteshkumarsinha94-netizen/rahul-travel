@@ -51,16 +51,16 @@
             color: #0077ff;
         }
 
-   .hero {
-    min-height: 520px;
+.hero {
+    min-height: 560px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 20px;
+    padding: 90px 20px;
     background:
-        radial-gradient(circle at 20% 20%, rgba(0, 119, 255, 0.12), transparent 35%),
-        radial-gradient(circle at 80% 70%, rgba(0, 180, 255, 0.10), transparent 35%),
+        radial-gradient(circle at 20% 20%, rgba(0, 119, 255, 0.14), transparent 35%),
+        radial-gradient(circle at 80% 80%, rgba(0, 180, 255, 0.10), transparent 35%),
         linear-gradient(135deg, #eaf4ff, #ffffff);
     position: relative;
     overflow: hidden;
@@ -70,24 +70,52 @@
     max-width: 900px;
 }
 
-.small-text {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    color: #0077ff;
-    margin-bottom: 20px;
-}
-
 .hero h1 {
     font-size: 56px;
     line-height: 1.15;
     margin-bottom: 20px;
+    font-weight: 800;
 }
 
 .hero-text {
     font-size: 19px;
     color: #555;
     margin-bottom: 35px;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    max-width: 650px;
+    margin: 25px auto 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 80, 180, 0.12);
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 17px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-box button {
+    padding: 17px 30px;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    background: #0077ff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: #005fcc;
 }
 
 .search-box {
