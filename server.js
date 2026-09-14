@@ -339,7 +339,7 @@ console.log("BREVO KEY STATUS:", brevoApiKey ? `LOADED (${brevoApiKey.length} ch
                     to: toList,
                     subject: mailOptions.subject || "",
                     htmlContent: mailOptions.html || "",
-                    textContent: mailOptions.text || ""
+                    textContent: mailOptions.text || "Thank you for booking with Rahul Travel.",
                 })
             });
 
