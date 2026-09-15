@@ -912,6 +912,250 @@
         margin-top: 30px;
     }
 }
+/* =========================
+   MOBILE VIEW POLISH
+========================= */
+
+@media (max-width: 600px) {
+
+    /* Main page spacing */
+    body {
+        overflow-x: hidden;
+    }
+
+    section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Headings */
+    h1 {
+        font-size: 34px;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 28px;
+        line-height: 1.25;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 80vh;
+        padding: 70px 20px;
+    }
+
+    .hero-content {
+        width: 100%;
+    }
+
+    .hero p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    .hero-buttons,
+    .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .hero-buttons a,
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    /* Destination / package cards */
+    .destination-grid,
+    .destinations-grid,
+    .package-grid,
+    .packages-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    /* Why Choose cards */
+    .why-grid,
+    .why-choose-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    /* Reviews */
+    .reviews-grid,
+    .review-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    /* CTA */
+    .cta-section {
+        padding: 55px 20px;
+    }
+
+    .cta-section h2 {
+        font-size: 28px;
+    }
+
+    .cta-section p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* Footer */
+    .site-footer {
+        padding: 45px 20px 20px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
+    }
+
+    .footer-column h3 {
+        font-size: 21px;
+    }
+
+    .footer-bottom {
+        margin-top: 30px;
+    }
+
+    /* Contact section */
+    .contact-container,
+    .contact-content {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Images */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+/* Navbar */
+.navbar {
+    min-height: auto;
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 23px;
+    white-space: nowrap;
+}
+
+.nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.nav-links a {
+    font-size: 14px;
+}
+/* =========================
+   TABLET + MOBILE CARD FIX
+========================= */
+
+@media (max-width: 768px) {
+
+    .destinations {
+        padding: 60px 20px;
+    }
+
+    .destination-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .packages {
+        padding: 60px 20px;
+    }
+
+    .package-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .destination-card,
+    .package-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .destination-card img,
+    .package-image img {
+        width: 100%;
+        max-width: 100%;
+        object-fit: cover;
+    }
+}
+/* =========================
+   FINAL MOBILE POLISH
+========================= */
+
+@media (max-width: 768px) {
+
+    /* Why Choose */
+    .why-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .why-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Customer Reviews */
+    .reviews-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .review-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Contact */
+    .contact-container {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
+    }
+
+    .contact-info,
+    .contact-form {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* CTA buttons */
+    .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .cta-btn {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}
     </style>
 </head>
 
