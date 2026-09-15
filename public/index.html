@@ -565,6 +565,79 @@
     background: #f8d7da;
     color: #721c24;
 }
+/* =========================
+   WHY CHOOSE RAHUL TRAVEL
+========================= */
+
+.why-choose {
+    padding: 80px 50px;
+    background: #f8fbff;
+}
+
+.why-choose-grid {
+    max-width: 1100px;
+    margin: 45px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.why-card {
+    background: #ffffff;
+    padding: 30px 22px;
+    text-align: center;
+    border-radius: 16px;
+    border: 1px solid #eef2f7;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.13);
+}
+
+.why-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #eaf4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+}
+
+.why-card h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+.why-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Why Choose Responsive */
+
+@media (max-width: 900px) {
+    .why-choose-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .why-choose {
+        padding: 60px 20px;
+    }
+
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+    }
+}
     </style>
 </head>
 
@@ -688,6 +761,56 @@
     </div>
 
 </div>
+
+</section>
+<!-- WHY CHOOSE RAHUL TRAVEL -->
+<section class="why-choose" id="why-choose">
+
+    <div class="section-title">
+        <p>WHY CHOOSE US</p>
+        <h2>Why Choose Rahul Travel?</h2>
+        <span>We make your journey simple, safe and memorable.</span>
+    </div>
+
+    <div class="why-choose-grid">
+
+        <div class="why-card">
+            <div class="why-icon">⭐</div>
+            <h3>Trusted Travel Service</h3>
+            <p>
+                Reliable travel assistance to make your trip smooth
+                and stress-free.
+            </p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">💰</div>
+            <h3>Best & Transparent Pricing</h3>
+            <p>
+                Clear and affordable pricing with no unnecessary
+                hidden charges.
+            </p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">🚌</div>
+            <h3>Safe & Comfortable Journey</h3>
+            <p>
+                We focus on comfortable travel planning and a safe
+                journey for our customers.
+            </p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">📞</div>
+            <h3>24/7 Customer Support</h3>
+            <p>
+                Our team is always ready to help you with your travel
+                questions and requirements.
+            </p>
+        </div>
+
+    </div>
 
 </section>
 <section class="about" id="about">
