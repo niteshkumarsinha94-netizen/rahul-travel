@@ -723,6 +723,90 @@
         padding: 60px 20px;
     }
 }
+/* =========================
+   BOOK NOW / WHATSAPP CTA
+========================= */
+
+.cta-section {
+    padding: 75px 30px;
+    background: #0f172a;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.cta-section h2 {
+    color: #ffffff;
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    color: #cbd5e1;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.cta-book {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.cta-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+}
+
+/* CTA Responsive */
+
+@media (max-width: 600px) {
+    .cta-section {
+        padding: 60px 20px;
+    }
+
+    .cta-section h2 {
+        font-size: 30px;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .cta-btn {
+        width: 100%;
+        max-width: 280px;
+    }
+}
     </style>
 </head>
 
@@ -974,6 +1058,37 @@
                     <span>Family Trip</span>
                 </div>
             </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- BOOK NOW / WHATSAPP CTA -->
+<section class="cta-section" id="book-now">
+
+    <div class="cta-content">
+
+        <h2>Ready to Plan Your Trip? 🌍</h2>
+
+        <p>
+            Let Rahul Travel help you plan a comfortable, memorable
+            and hassle-free journey.
+        </p>
+
+        <div class="cta-buttons">
+
+            <a href="#contact" class="cta-btn cta-book">
+                📞 Book Your Trip
+            </a>
+
+            <a
+                href="https://wa.me/916203848882?text=Hello%20Rahul%20Travel,%20I%20want%20to%20plan%20a%20trip."
+                target="_blank"
+                class="cta-btn cta-whatsapp"
+            >
+                💬 Chat on WhatsApp
+            </a>
 
         </div>
 
