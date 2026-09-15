@@ -1568,8 +1568,8 @@
 </form>
 
 <script>
-document.getElementById("contactForm")
 
+document.getElementById("contactForm").addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const name = document.getElementById("name").value;
