@@ -1963,136 +1963,152 @@ document.addEventListener(
 </div>
 <script>
 
-function openPackage(packageName) {
+async function openPackage(packageName) {
 
-const packages = {
-    goa: {
-        title: "Goa Holiday",
-        duration: "3 Days / 2 Nights",
-        price: "₹8,999",
-        description: "Enjoy beautiful beaches, amazing views and a relaxing Goa holiday."
-    },
-jaipur: {
-    title: "Jaipur Royal Tour",
-    duration: "4 Days / 3 Nights",
-    price: "₹10,999",
-    description: "Explore beautiful forts, palaces and the royal culture of Jaipur."
-},
+    try {
 
-kerala: {
-    title: "Kerala Paradise",
-    duration: "5 Days / 4 Nights",
-    price: "₹14,999",
-    description: "Enjoy Kerala's beautiful beaches, backwaters, greenery and peaceful views."
-},
+        const response = await fetch("/api/packages");
+        const result = await response.json();
 
-    manali: {
-        title: "Manali Adventure",
-        duration: "5 Days / 4 Nights",
-        price: "₹12,999",
-        description: "Enjoy beautiful mountains, amazing views and an exciting Manali adventure."
-    },
+        if (!result.success) {
+            throw new Error("Failed to load packages.");
+        }
 
-    kashmir: {
-        title: "Kashmir Paradise",
-        duration: "6 Days / 5 Nights",
-        price: "₹16,999",
-        description: "Explore the beautiful valleys, mountains and peaceful scenery of Kashmir."
-    }
-};
+        const packages = result.packages || [];
 
-    const pkg = packages[packageName];
+        const searchName = String(packageName)
+            .trim()
+            .toLowerCase();
 
-    if (!pkg) {
-        return;
-    }
+        const pkg = packages.find(item =>
+            String(item.destination || "")
+                .trim()
+                .toLowerCase() === searchName
+        );
 
-    const oldModal = document.getElementById("packageModal");
+        if (!pkg) {
+            alert("Package not found.");
+            return;
+        }
 
-    if (oldModal) {
-        oldModal.remove();
-    }
+        const oldModal =
+            document.getElementById("packageModal");
 
-    const modal = document.createElement("div");
+        if (oldModal) {
+            oldModal.remove();
+        }
 
-    modal.id = "packageModal";
+        const modal = document.createElement("div");
 
-    modal.innerHTML = `
-        <div style="
-           position: fixed;
-inset: 0;
-background: rgba(0, 0, 0, 0.6);
-backdrop-filter: blur(4px);
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 9999;
-padding: 20px;
-        ">
+        modal.id = "packageModal";
 
+        modal.innerHTML = `
             <div style="
-               background: #ffffff;
-width: 90%;
-max-width: 500px;
-padding: 32px;
-border-radius: 20px;
-text-align: center;
-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-border: 1px solid #eef2f7;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.6);
+                backdrop-filter: blur(4px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                padding: 20px;
             ">
 
-                <h2>${pkg.title}</h2>
+                <div style="
+                    background: white;
+                    width: 90%;
+                    max-width: 500px;
+                    padding: 32px;
+                    border-radius: 20px;
+                    text-align: center;
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+                ">
 
-                <p><strong>Duration:</strong> ${pkg.duration}</p>
+                    <h2>${pkg.name}</h2>
 
-                <p><strong>Price:</strong> ${pkg.price}</p>
+                    <p>
+                        <strong>Destination:</strong>
+                        ${pkg.destination || "-"}
+                    </p>
 
-                <p>${pkg.description}</p>
-<button 
-    id="databaseBookNowButton"
-    style="
-        padding: 10px 25px;
-        background: #28a745;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-right: 10px;
-    ">
-    Book Now
-</button>
+                    <p>
+                        <strong>Duration:</strong>
+                        ${pkg.duration || "-"}
+                    </p>
 
-<button onclick="document.getElementById('packageModal').remove()"
-    style="
-        padding: 10px 25px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    ">
-    Close
-</button>
+                    <p>
+                        <strong>Price:</strong>
+                        ₹${Number(pkg.price || 0).toLocaleString("en-IN")}
+                    </p>
+
+                    <p>
+                        ${pkg.description || ""}
+                    </p>
+
+                    <button
+                        id="databaseBookNowButton"
+                        style="
+                            padding: 10px 25px;
+                            background: #28a745;
+                            color: white;
+                            border: none;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            margin-right: 10px;
+                        "
+                    >
+                        Book Now
+                    </button>
+
+                    <button
+                        onclick="document.getElementById('packageModal').remove()"
+                        style="
+                            padding: 10px 25px;
+                            background: #007bff;
+                            color: white;
+                            border: none;
+                            border-radius: 6px;
+                            cursor: pointer;
+                        "
+                    >
+                        Close
+                    </button>
+
+                </div>
+
             </div>
-        </div>
-    `;
+        `;
 
-    document.body.appendChild(modal);
-    const databaseBookNowButton =
-    document.getElementById("databaseBookNowButton");
+        document.body.appendChild(modal);
 
-if (databaseBookNowButton) {
+        const bookButton =
+            document.getElementById("databaseBookNowButton");
 
-    databaseBookNowButton.addEventListener(
-        "click",
-        function () {
+        if (bookButton) {
 
-            bookPackage(pkg.name);
+            bookButton.addEventListener(
+                "click",
+                function () {
+                    bookPackage(pkg.name);
+                }
+            );
 
         }
-    );
 
-}
+    } catch (error) {
+
+        console.error(
+            "OPEN PACKAGE ERROR:",
+            error
+        );
+
+        alert(
+            "Failed to open package ❌"
+        );
+
+    }
+
 }
 function bookPackage(packageName) {
 
