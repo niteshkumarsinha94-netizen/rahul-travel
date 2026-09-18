@@ -3307,7 +3307,7 @@ function renderPackages() {
     }
 
 
-    table.innerHTML = allPackages.map(pkg => {
+    table.innerHTML = allPackages.map((pkg, index) => {
 
         const imageValue = pkg.image || "📦";
 
@@ -3343,7 +3343,7 @@ function renderPackages() {
             <tr>
 
                 <td>
-                    ${pkg.id}
+                    ${index + 1}
                 </td>
 
                 <td>
