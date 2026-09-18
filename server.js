@@ -95,6 +95,27 @@ db.run(`
     } else {
 
         console.log("PACKAGES TABLE READY ✅");
+   // ===============================
+// EXPLORE DESTINATIONS DATABASE
+// ===============================
+
+db.run(`
+    CREATE TABLE IF NOT EXISTS explore_destinations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT,
+        image TEXT,
+        status TEXT DEFAULT 'Active',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`, (error) => {
+    if (error) {
+        console.error("EXPLORE DESTINATIONS TABLE CREATION FAILED ❌");
+        console.error(error);
+    } else {
+        console.log("EXPLORE DESTINATIONS TABLE READY ✅");
+    }
+});
 // ==========================================
 // ADD DEFAULT TRAVEL PACKAGES
 // ==========================================
@@ -1659,8 +1680,182 @@ app.post("/api/admin/packages", requireAdmin, (req, res) => {
     );
 
 });
+// ==========================================
+// ADD EXPLORE DESTINATION
+// ==========================================
 
+app.post("/api/admin/explore-destinations", requireAdmin, (req, res) => {
 
+    const {
+        name,
+        description,
+        image,
+        status
+    } = req.body;
+
+    if (!name) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Destination name is required."
+        });
+
+    }
+
+    db.run(
+        `
+        INSERT INTO explore_destinations
+        (
+            name,
+            description,
+            image,
+            status
+        )
+        VALUES (?, ?, ?, ?)
+        `,
+        [
+            name,
+            description || "",
+            image || "",
+            status || "Active"
+        ],
+        function (error) {
+
+            if (error) {
+
+                console.error("ADD EXPLORE DESTINATION FAILED ❌");
+                console.error(error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to add explore destination."
+                });
+
+            }
+
+            res.json({
+                success: true,
+                message: "Explore destination added successfully.",
+                destinationId: this.lastID
+            });
+
+        }
+    );
+
+});
+// ==========================================
+// UPDATE EXPLORE DESTINATION
+// ==========================================
+
+app.patch("/api/admin/explore-destinations/:id", requireAdmin, (req, res) => {
+
+    const destinationId = req.params.id;
+
+    const {
+        name,
+        description,
+        image,
+        status
+    } = req.body;
+
+    if (!name) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Destination name is required."
+        });
+
+    }
+
+    db.run(
+        `
+        UPDATE explore_destinations
+        SET
+            name = ?,
+            description = ?,
+            image = ?,
+            status = ?
+        WHERE id = ?
+        `,
+        [
+            name,
+            description || "",
+            image || "",
+            status || "Active",
+            destinationId
+        ],
+        function (error) {
+
+            if (error) {
+
+                console.error("UPDATE EXPLORE DESTINATION FAILED ❌");
+                console.error(error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to update explore destination."
+                });
+
+            }
+
+            if (this.changes === 0) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Explore destination not found."
+                });
+
+            }
+
+            res.json({
+                success: true,
+                message: "Explore destination updated successfully."
+            });
+
+        }
+    );
+
+});
+// DELETE EXPLORE DESTINATION
+app.delete(
+    "/api/admin/explore-destinations/:id",
+    requireAdmin,
+    (req, res) => {
+
+        const destinationId = req.params.id;
+
+        db.run(
+            "DELETE FROM explore_destinations WHERE id = ?",
+            [destinationId],
+            function (error) {
+
+                if (error) {
+                    console.error(
+                        "DELETE EXPLORE DESTINATION FAILED ❌",
+                        error
+                    );
+
+                    return res.status(500).json({
+                        success: false,
+                        message: "Failed to delete destination."
+                    });
+                }
+
+                if (this.changes === 0) {
+                    return res.status(404).json({
+                        success: false,
+                        message: "Destination not found."
+                    });
+                }
+
+                res.json({
+                    success: true,
+                    message: "Explore destination deleted successfully."
+                });
+            }
+        );
+    }
+);
 // UPDATE PACKAGE
 app.patch("/api/admin/packages/:id", requireAdmin, (req, res) => {
 
@@ -1776,6 +1971,63 @@ app.delete("/api/admin/packages/:id", requireAdmin, (req, res) => {
             res.json({
                 success: true,
                 message: "Package deleted successfully."
+            });
+
+        }
+    );
+
+});
+// ==========================================
+// EXPLORE DESTINATIONS APIs
+// ==========================================
+
+// GET ALL EXPLORE DESTINATIONS
+// GET ALL EXPLORE DESTINATIONS - PUBLIC
+app.get("/api/explore-destinations", (req, res) => {
+    db.all(
+        `SELECT * FROM explore_destinations
+         WHERE status = 'Active'
+         ORDER BY id DESC`,
+        [],
+        (error, rows) => {
+            if (error) {
+                console.error("GET PUBLIC EXPLORE DESTINATIONS FAILED ❌", error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to load explore destinations."
+                });
+            }
+
+            res.json({
+                success: true,
+                destinations: rows
+            });
+        }
+    );
+});
+app.get("/api/admin/explore-destinations", requireAdmin, (req, res) => {
+
+    db.all(
+        `SELECT * FROM explore_destinations ORDER BY id DESC`,
+        [],
+        (error, rows) => {
+
+            if (error) {
+
+                console.error("GET EXPLORE DESTINATIONS FAILED ❌");
+                console.error(error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to load explore destinations."
+                });
+
+            }
+
+            res.json({
+                success: true,
+                destinations: rows
             });
 
         }

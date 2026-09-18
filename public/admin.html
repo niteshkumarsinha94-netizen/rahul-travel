@@ -1460,7 +1460,56 @@ tr:hover {
     </div>
 
 </div>
+<!-- ========================================== -->
+<!-- EXPLORE DESTINATIONS MANAGEMENT -->
+<!-- ========================================== -->
 
+<section class="package-section">
+
+    <div class="package-header">
+
+        <h2>🌍 Explore Destinations</h2>
+
+        <button
+            class="add-package-btn"
+            type="button"
+            onclick="openExploreDestinationForm()"
+        >
+            ➕ Add Destination
+        </button>
+
+    </div>
+
+    <div class="table-container">
+
+        <table class="package-table">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>IMAGE</th>
+                    <th>DESTINATION</th>
+                    <th>DESCRIPTION</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+
+            <tbody id="exploreDestinationTable">
+
+                <tr>
+                    <td colspan="6" class="loading">
+                        Loading destinations...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
 
 <!-- ==========================================
      ADD / EDIT PACKAGE MODAL
@@ -3394,7 +3443,41 @@ function closePackageForm() {
         "none";
 
 }
+// ==========================================
+// EXPLORE DESTINATION FORM
+// ==========================================
 
+function openExploreDestinationForm() {
+
+    document.getElementById("exploreDestinationFormTitle").textContent =
+        "➕ Add Destination";
+
+    document.getElementById("exploreDestinationId").value = "";
+
+    document.getElementById("exploreDestinationName").value = "";
+
+    document.getElementById("exploreDestinationDescription").value = "";
+
+    document.getElementById("exploreDestinationImage").value = "";
+
+    document.getElementById("exploreDestinationStatus").value = "Active";
+
+    document.getElementById("exploreDestinationFormModal").style.display =
+        "flex";
+
+}
+
+
+// ==========================================
+// CLOSE EXPLORE DESTINATION FORM
+// ==========================================
+
+function closeExploreDestinationForm() {
+
+    document.getElementById("exploreDestinationFormModal").style.display =
+        "none";
+
+}
 
 // ==========================================
 // EDIT PACKAGE
@@ -3657,6 +3740,8 @@ document.addEventListener(
 
         loadPackages();
 
+        loadExploreDestinations();
+
     }
 );
 // ==========================================
@@ -3791,7 +3876,375 @@ window.applyBookingFilters = function () {
     displayBookings(filteredBookings);
 
 };
-</script>
+// ==========================================
+// LOAD EXPLORE DESTINATIONS
+// ==========================================
 
+async function loadExploreDestinations() {
+
+    const table =
+        document.getElementById("exploreDestinationTable");
+
+    if (!table) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch("/api/admin/explore-destinations");
+
+        const result =
+            await response.json();
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message || "Failed to load destinations."
+            );
+
+        }
+
+        const destinations =
+            result.destinations || [];
+
+        if (!destinations.length) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align:center;">
+                        No destinations available.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        table.innerHTML =
+            destinations.map(destination => {
+
+                const image =
+                    destination.image || "🌍";
+
+                const imageHTML =
+                    image.startsWith("http")
+                        ? `
+                            <img
+                                src="${image}"
+                                alt="${destination.name || "Destination"}"
+                                style="
+                                    width:55px;
+                                    height:45px;
+                                    object-fit:cover;
+                                    border-radius:8px;
+                                "
+                            >
+                          `
+                        : image;
+
+                return `
+                    <tr>
+
+                        <td>
+                            ${destination.id}
+                        </td>
+
+                        <td>
+                            ${imageHTML}
+                        </td>
+
+                        <td>
+                            ${destination.name || ""}
+                        </td>
+
+                        <td>
+                            ${destination.description || ""}
+                        </td>
+
+                        <td>
+                            <span class="package-status">
+                                ${destination.status || "Active"}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="edit-btn"
+                                onclick="editExploreDestination(${destination.id})"
+                            >
+                                ✏️ Edit
+                            </button>
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteExploreDestination(${destination.id})"
+                            >
+                                🗑️ Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+
+    } catch (error) {
+
+        console.error(
+            "LOAD EXPLORE DESTINATIONS ERROR:",
+            error
+        );
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center;">
+                    ❌ Failed to load destinations.
+                </td>
+            </tr>
+        `;
+
+    }
+}
+// ========================================
+// SAVE EXPLORE DESTINATION
+// ========================================
+async function saveExploreDestination() {
+
+    const id = document.getElementById("exploreDestinationId").value;
+    const name = document.getElementById("exploreDestinationName").value;
+    const description = document.getElementById("exploreDestinationDescription").value;
+    const image = document.getElementById("exploreDestinationImage").value;
+    const status = document.getElementById("exploreDestinationStatus").value;
+
+    if (!name.trim()) {
+        alert("Destination name is required.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            id
+                ? `/api/admin/explore-destinations/${id}`
+                : "/api/admin/explore-destinations",
+            {
+                method: id ? "PATCH" : "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name.trim(),
+                    description: description.trim(),
+                    image: image.trim(),
+                    status: status
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Failed to save destination."
+            );
+        }
+
+        alert(
+            id
+                ? "Destination updated successfully! ✅"
+                : "Destination added successfully! ✅"
+        );
+
+        closeExploreDestinationForm();
+
+        loadExploreDestinations();
+
+    } catch (error) {
+
+        console.error(
+            "SAVE EXPLORE DESTINATION ERROR:",
+            error
+        );
+
+        alert(
+            error.message || "Failed to save destination ❌"
+        );
+    }
+}
+// EDIT EXPLORE DESTINATION
+async function editExploreDestination(id) {
+    try {
+        const response = await fetch("/api/admin/explore-destinations");
+        const result = await response.json();
+
+        if (!result.success) {
+            alert("Failed to load destination.");
+            return;
+        }
+
+        const destination = result.destinations.find(item => item.id === id);
+
+        if (!destination) {
+            alert("Destination not found.");
+            return;
+        }
+
+        const name = prompt("Destination Name:", destination.name);
+        if (name === null) return;
+
+        const description = prompt(
+            "Description:",
+            destination.description || ""
+        );
+        if (description === null) return;
+
+        const image = prompt(
+            "Image URL:",
+            destination.image || ""
+        );
+        if (image === null) return;
+
+        const status = prompt(
+            "Status (Active/Inactive):",
+            destination.status || "Active"
+        );
+        if (status === null) return;
+
+        const updateResponse = await fetch(
+            `/api/admin/explore-destinations/${id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name,
+                    description,
+                    image,
+                    status
+                })
+            }
+        );
+
+        const updateResult = await updateResponse.json();
+
+        if (!updateResult.success) {
+            alert(updateResult.message || "Failed to update destination.");
+            return;
+        }
+
+        alert("Destination updated successfully!");
+
+        loadExploreDestinations();
+
+    } catch (error) {
+        console.error("EDIT EXPLORE DESTINATION ERROR:", error);
+        alert("Failed to edit destination.");
+    }
+}
+
+
+// DELETE EXPLORE DESTINATION
+async function deleteExploreDestination(id) {
+    try {
+        const confirmDelete = confirm(
+            "Are you sure you want to delete this destination?"
+        );
+
+        if (!confirmDelete) return;
+
+        const response = await fetch(
+            `/api/admin/explore-destinations/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            alert(result.message || "Failed to delete destination.");
+            return;
+        }
+
+        alert("Destination deleted successfully!");
+
+        loadExploreDestinations();
+
+    } catch (error) {
+        console.error("DELETE EXPLORE DESTINATION ERROR:", error);
+        alert("Failed to delete destination.");
+    }
+}
+</script>
+<!-- ========================================== -->
+<!-- ADD / EDIT EXPLORE DESTINATION MODAL -->
+<!-- ========================================== -->
+
+<div id="exploreDestinationFormModal" class="booking-modal">
+
+    <div class="booking-modal-content package-modal-content">
+
+        <button
+            class="close-modal"
+            type="button"
+            onclick="closeExploreDestinationForm()"
+        >
+            ✕
+        </button>
+
+        <h2 id="exploreDestinationFormTitle">
+            ➕ Add Destination
+        </h2>
+
+        <div class="package-form">
+
+            <input
+                type="hidden"
+                id="exploreDestinationId"
+            >
+
+            <label>Destination Name</label>
+            <input
+                type="text"
+                id="exploreDestinationName"
+                placeholder="Enter destination name"
+            >
+
+            <label>Description</label>
+            <textarea
+                id="exploreDestinationDescription"
+                placeholder="Enter destination description"
+            ></textarea>
+
+            <label>Image URL</label>
+            <input
+                type="text"
+                id="exploreDestinationImage"
+                placeholder="Enter image URL"
+            >
+
+            <label>Status</label>
+            <select id="exploreDestinationStatus">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+
+            <button
+                type="button"
+                class="add-package-btn"
+                onclick="saveExploreDestination()"
+            >
+                💾 Save Destination
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>

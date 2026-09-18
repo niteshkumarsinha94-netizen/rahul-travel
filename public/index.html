@@ -1200,86 +1200,21 @@
 <span>Discover beautiful places and plan your perfect getaway with Rahul Travel.</span>
     </div>
 
-    <div class="destination-grid">
-
-    <div class="destination-card">
-        <div class="destination-image">
-            <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" alt="Goa Beach">
-        </div>
-        <div class="destination-info">
-            <h3>Goa</h3>
-            <p>Beautiful Beaches & Relaxation</p>
-            <button onclick="openPackage('goa')">Explore</button>
-        </div>
-    </div>
-
-    <div class="destination-card">
-        <div class="destination-image">
-            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80" alt="Manali Mountains">
-        </div>
-        <div class="destination-info">
-            <h3>Manali</h3>
-            <p>Mountains & Adventure</p>
-            <button onclick="openPackage('manali')">Explore</button>
-        </div>
-    </div>
-
-    <div class="destination-card">
-        <div class="destination-image">
-            <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80" alt="Jaipur Palace">
-        </div>
-        <div class="destination-info">
-            <h3>Jaipur</h3>
-            <p>Royal Heritage & Culture</p>
-            <button onclick="openPackage('jaipur')">Explore</button>
-        </div>
-    </div>
-
-    <div class="destination-card">
-        <div class="destination-image">
-            <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" alt="Kerala">
-        </div>
-        <div class="destination-info">
-            <h3>Kerala</h3>
-            <p>Nature, Backwaters & Peace</p>
-            <button onclick="openPackage('kerala')">Explore</button>
-        </div>
-    </div>
-
+<div id="destinationGrid" class="destination-grid"></div>
 </div>
+
 </section>
-
+<!-- POPULAR TRAVEL PACKAGES -->
 <section class="packages" id="packages">
-
     <div class="section-title">
         <p>PLAN • BOOK • ENJOY</p>
         <h2>Popular Travel Packages</h2>
-        <span>Choose the perfect package for your next adventure.</span>
+        <span>Choose from our popular travel packages and enjoy a memorable journey.</span>
     </div>
 
-<div
-    class="package-grid"
-    id="websitePackageGrid"
->
-
-    <div class="package-card">
-
-        <div class="package-image">
-            📦
-        </div>
-
-        <div class="package-info">
-
-            <h3>Loading Packages...</h3>
-
-            <p>Please wait...</p>
-
-        </div>
-
+    <div id="websitePackageGrid" class="package-grid">
+        <p style="text-align:center;">Loading packages...</p>
     </div>
-
-</div>
-
 </section>
 <!-- WHY CHOOSE RAHUL TRAVEL -->
 <section class="why-choose" id="why-choose">
@@ -1622,7 +1557,51 @@ if (result.success) {
 // ==========================================
 // LOAD PACKAGES FROM DATABASE
 // ==========================================
+async function loadExploreDestinations() {
+    const destinationGrid = document.getElementById("destinationGrid");
 
+    if (!destinationGrid) {
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/explore-destinations");
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error("Failed to load destinations.");
+        }
+
+        const destinations = result.destinations || [];
+
+        destinationGrid.innerHTML = destinations.map(destination => {
+            const image = destination.image || "";
+            const imageHTML = image.startsWith("http")
+                ? `<img src="${image}" alt="${destination.name}">`
+                : image;
+
+            return `
+                <div class="destination-card">
+                    <div class="destination-image">
+                        ${imageHTML}
+                    </div>
+
+                    <div class="destination-info">
+                        <h3>${destination.name}</h3>
+                        <p>${destination.description || ""}</p>
+                        <button onclick="openPackage('${destination.name.toLowerCase()}')">
+                            Explore
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+    } catch (error) {
+        console.error("EXPLORE DESTINATIONS ERROR:", error);
+        destinationGrid.innerHTML = "<p>Unable to load destinations.</p>";
+    }
+}
 async function loadWebsitePackages() {
 
     const packageGrid =
@@ -1920,7 +1899,7 @@ async function openDatabasePackage(id) {
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-
+        loadExploreDestinations();
         loadWebsitePackages();
 
     }
@@ -1962,7 +1941,6 @@ document.addEventListener(
 
 </div>
 <script>
-
 async function openPackage(packageName) {
 
     try {
@@ -2002,83 +1980,79 @@ async function openPackage(packageName) {
 
         modal.id = "packageModal";
 
-        modal.innerHTML = `
-            <div style="
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.6);
-                backdrop-filter: blur(4px);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 9999;
-                padding: 20px;
-            ">
+modal.innerHTML = `
+    <div style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        padding: 20px;
+    ">
+        <div style="
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 32px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        ">
+            <h2>${pkg.name}</h2>
 
-                <div style="
-                    background: white;
-                    width: 90%;
-                    max-width: 500px;
-                    padding: 32px;
-                    border-radius: 20px;
-                    text-align: center;
-                    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-                ">
+            <p>
+                <strong>Destination:</strong><br>
+                ${pkg.destination || ""}
+            </p>
 
-                    <h2>${pkg.name}</h2>
+            <p>
+                <strong>Duration:</strong><br>
+                ${pkg.duration || ""}
+            </p>
 
-                    <p>
-                        <strong>Destination:</strong>
-                        ${pkg.destination || "-"}
-                    </p>
+            <p>
+                <strong>Price:</strong><br>
+                ₹${Number(pkg.price || 0).toLocaleString("en-IN")}
+            </p>
 
-                    <p>
-                        <strong>Duration:</strong>
-                        ${pkg.duration || "-"}
-                    </p>
+            <p>
+                ${pkg.description || ""}
+            </p>
 
-                    <p>
-                        <strong>Price:</strong>
-                        ₹${Number(pkg.price || 0).toLocaleString("en-IN")}
-                    </p>
+            <button
+                id="databaseBookNowButton"
+                style="
+                    padding: 10px 25px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    margin-right: 10px;
+                "
+            >
+                Book Now
+            </button>
 
-                    <p>
-                        ${pkg.description || ""}
-                    </p>
-
-                    <button
-                        id="databaseBookNowButton"
-                        style="
-                            padding: 10px 25px;
-                            background: #28a745;
-                            color: white;
-                            border: none;
-                            border-radius: 6px;
-                            cursor: pointer;
-                            margin-right: 10px;
-                        "
-                    >
-                        Book Now
-                    </button>
-
-                    <button
-                        onclick="document.getElementById('packageModal').remove()"
-                        style="
-                            padding: 10px 25px;
-                            background: #007bff;
-                            color: white;
-                            border: none;
-                            border-radius: 6px;
-                            cursor: pointer;
-                        "
-                    >
-                        Close
-                    </button>
-
-                </div>
-
-            </div>
-        `;
+            <button
+                onclick="document.getElementById('packageModal').remove()"
+                style="
+                    padding: 10px 25px;
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                "
+            >
+                Close
+            </button>
+        </div>
+    </div>
+`;
 
         document.body.appendChild(modal);
 
