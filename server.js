@@ -6,22 +6,138 @@ const nodemailer = require("nodemailer");
 const path = require("path");
 const crypto = require("crypto");
 const sqlite3 = require("sqlite3").verbose();
+const { Pool } = require("pg");
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+});
+
+pool.query("SELECT NOW()", (error) => {
+    if (error) {
+        console.error("POSTGRES CONNECTION FAILED ❌");
+        console.error(error);
+    } else {
+        console.log("POSTGRES CONNECTION SUCCESSFUL ✅");
+    }
+});
 const app = express();
 const PORT = process.env.PORT || 3000;
 // ==========================================
 // BOOKING DATABASE
 // ==========================================
 
-const db = new sqlite3.Database("./bookings.db", (error) => {
+const db = {
+    run: async function (sql, params = [], callback) {
+        try {
+            let query = sql;
 
-    if (error) {
-        console.error("DATABASE CONNECTION FAILED ❌");
-        console.error(error);
-    } else {
-        console.log("BOOKING DATABASE CONNECTED ✅");
+            // SQLite syntax → PostgreSQL syntax
+            query = query.replace(
+                /INTEGER PRIMARY KEY AUTOINCREMENT/gi,
+                "SERIAL PRIMARY KEY"
+            );
+
+            query = query.replace(
+                /DATETIME/gi,
+                "TIMESTAMP"
+            );
+
+            query = query.replace(
+                /INSERT OR IGNORE/gi,
+                "INSERT"
+            );
+
+            // Convert ? placeholders to PostgreSQL $1, $2...
+            let index = 0;
+            query = query.replace(/\?/g, () => `$${++index}`);
+
+            let result;
+
+            // INSERT needs the inserted ID for existing this.lastID usage
+            if (/^\s*INSERT\s/i.test(query)) {
+                if (!/RETURNING\s+/i.test(query)) {
+                    query += " RETURNING id";
+                }
+
+                result = await pool.query(query, params);
+
+                const context = {
+                    lastID: result.rows[0]?.id || null,
+                    changes: result.rowCount
+                };
+
+                if (callback) {
+                    callback.call(context, null);
+                }
+
+                return;
+            }
+
+            result = await pool.query(query, params);
+
+            const context = {
+         lastID: result?.rows?.[0]?.id || null,
+    changes: result?.rowCount || 0
+};
+
+            if (callback) {
+                callback.call(context, null);
+            }
+
+        } catch (error) {
+            if (callback) {
+                callback.call(
+                    { lastID: null, changes: 0 },
+                    error
+                );
+            } else {
+                console.error(error);
+            }
+        }
+    },
+
+    get: async function (sql, params = [], callback) {
+        try {
+            let index = 0;
+
+            const query = sql.replace(
+                /\?/g,
+                () => `$${++index}`
+            );
+
+            const result = await pool.query(query, params);
+
+            if (callback) {
+                callback(null, result.rows[0]);
+            }
+        } catch (error) {
+            if (callback) {
+                callback(error);
+            }
+        }
+    },
+
+    all: async function (sql, params = [], callback) {
+        try {
+            let index = 0;
+
+            const query = sql.replace(
+                /\?/g,
+                () => `$${++index}`
+            );
+
+            const result = await pool.query(query, params);
+
+            if (callback) {
+                callback(null, result.rows);
+            }
+        } catch (error) {
+            if (callback) {
+                callback(error);
+            }
+        }
     }
-
-});
+};
 
 db.run(`
     CREATE TABLE IF NOT EXISTS bookings (
@@ -95,6 +211,8 @@ db.run(`
     } else {
 
         console.log("PACKAGES TABLE READY ✅");
+    }
+});
    // ===============================
 // EXPLORE DESTINATIONS DATABASE
 // ===============================
@@ -116,106 +234,7 @@ db.run(`
         console.log("EXPLORE DESTINATIONS TABLE READY ✅");
     }
 });
-// ==========================================
-// ADD DEFAULT TRAVEL PACKAGES
-// ==========================================
 
-const defaultPackages = [
-    {
-        name: "Goa Holiday",
-        destination: "Goa",
-        duration: "3 Days / 2 Nights",
-        price: 8999,
-        description: "Enjoy beautiful beaches, amazing views and a relaxing Goa holiday.",
-        image: "🏖️"
-    },
-    {
-        name: "Manali Adventure",
-        destination: "Manali",
-        duration: "5 Days / 4 Nights",
-        price: 12999,
-        description: "Enjoy beautiful mountains, amazing views and an exciting Manali adventure.",
-        image: "🏔️"
-    },
-    {
-        name: "Kashmir Paradise",
-        destination: "Kashmir",
-        duration: "6 Days / 5 Nights",
-        price: 16999,
-        description: "Explore the beautiful valleys, mountains and peaceful scenery of Kashmir.",
-        image: "🌄"
-    },
-    {
-        name: "Jaipur Royal Tour",
-        destination: "Jaipur",
-        duration: "4 Days / 3 Nights",
-        price: 10999,
-        description: "Explore beautiful forts, palaces and the royal culture of Jaipur.",
-        image: "🏰"
-    },
-    {
-        name: "Kerala Paradise",
-        destination: "Kerala",
-        duration: "5 Days / 4 Nights",
-        price: 14999,
-        description: "Enjoy Kerala's beautiful beaches, backwaters, greenery and peaceful views.",
-        image: "🌿"
-    }
-];
-
-defaultPackages.forEach((pkg) => {
-
-    db.run(
-        `
-        INSERT INTO packages
-        (
-            name,
-            destination,
-            duration,
-            price,
-            description,
-            image,
-            status
-        )
-        SELECT ?, ?, ?, ?, ?, ?, 'Active'
-        WHERE NOT EXISTS (
-            SELECT 1 FROM packages WHERE name = ?
-        )
-        `,
-        [
-            pkg.name,
-            pkg.destination,
-            pkg.duration,
-            pkg.price,
-            pkg.description,
-            pkg.image,
-            pkg.name
-        ],
-        (error) => {
-
-            if (error) {
-
-                console.error(
-                    `PACKAGE INSERT FAILED ❌ ${pkg.name}`
-                );
-
-                console.error(error);
-
-            } else {
-
-                console.log(
-                    `PACKAGE READY ✅ ${pkg.name}`
-                );
-
-            }
-
-        }
-    );
-
-});
-    }
-
-});
 // Middleware
 // ==========================================
 // ADMIN LOGIN SESSION
